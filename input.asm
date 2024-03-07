@@ -15,3 +15,4 @@ lui x10,-3244
 auipc x10,0xAAFG
 auipc x10,124378
 addi x1 x0 234G
+sh x11 0A(x6)

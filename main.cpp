@@ -202,9 +202,15 @@ int main(int argc, char *argv[])
                     
                     int k = 0;
                     bool neg = false;
+                    bool error = false;
                     string imd;
                     string upper_lim = "011111111111";
                     string lower_lim = "100000000000";
+
+                    set<char> valid_hex = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', '-'};
+                    set<char> valid_dig = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '-'};
+                    set<char> valid_bin = {'0', '1'};
+
                     if (tokens[3][k] == '-')
                     {
                         neg = true;
@@ -213,6 +219,11 @@ int main(int argc, char *argv[])
                     if (tokens[3].substr(k, 2) == "0x")
                     {
                         tokens[3].erase(0, 2 + k);
+
+                        for (auto i : tokens[3])
+                            if (valid_hex.find(i) == valid_hex.end())
+                                error = true;
+
                         int imm = hex_to_dec(tokens[3]);
                         if (neg)
                             imd = dec_to_bin(pow(2, 12) - abs(imm), 12);
@@ -228,9 +239,18 @@ int main(int argc, char *argv[])
                             tokens[3] = "0" + tokens[3];
                         }
                         imd = tokens[3];
+
+                        for (auto i : imd)
+                            if (valid_bin.find(i) == valid_bin.end())
+                                error = true;
+
                     }
                     else
-                    {
+                    {   
+                        for (auto i : tokens[3])
+                            if (valid_dig.find(i) == valid_dig.end())
+                                error = true;
+
                         int imm = stoi(tokens[3]);
                         // cout<<pow(2,12)-abs(imm)<<endl;
                         if (neg)
@@ -249,6 +269,8 @@ int main(int argc, char *argv[])
 
                     if ((imd > upper_lim && !neg) || (imd < lower_lim && neg) || imd.size() > 12)
                         cout << "0x" << bin_to_hex(dec_to_bin(text_address, 1)) << " Immediate value out of bounds" << endl;
+                    else if (error)
+                        cout << "0x" << bin_to_hex(dec_to_bin(text_address, 1)) << " Wrong inputs" << endl;
                     else
                     {
                         string code = i1 + fr2 + fr1 + s_func3[tokens[0]] + i2 + s_opcode[tokens[0]];
