@@ -57,6 +57,7 @@ int main(int argc, char* argv[]){
     defineAllOpcodes();
     mode = 0;//intial mode is text
     text_address = 0;
+    // argv[0] is ./a.exe
     for(int i=1;i<=argc;i++){
         string in = chartostring(argv[i]);
         string out = outputfilename(in);
@@ -86,11 +87,52 @@ int main(int argc, char* argv[]){
                         string dest = dec_to_bin(idest, 5);
                         string r1 = dec_to_bin(ir1, 5);
                         string r2 = dec_to_bin(ir2, 5);
-                        string code = r_func7[tokens[0]] + r2 + r1 + r_func3[tokens[0]] + dest + "0110011";
+                        string code = r_func7[tokens[0]] + r2 + r1 + r_func3[tokens[0]] + dest + r_opcode[tokens[0]];
                         code = bin_to_hex(code);
                         cout<<"0x"<<bin_to_hex(dec_to_bin(text_address, 32))<<" 0x"<<code<<endl;
                     }
                     // I-type
+                    if(i_func3.find(tokens[0])!=i_func3.end()){
+                        tokens[1].erase(0, 1);
+                        tokens[2].erase(0, 1);
+                        int idest = stoi(tokens[1]);
+                        int ir1 = stoi(tokens[2]);
+                        // cout<<"Here1";
+                        string dest = dec_to_bin(idest, 5);
+                        string r1 = dec_to_bin(ir1, 5);
+                        int k=0;
+                        bool neg=false;
+                        string imd;
+                        string upper_lim="011111111111";
+                        string lower_lim="100000000000";
+                        if(tokens[3][k]=='-'){neg=true;k++;}
+                        if(tokens[3].substr(k,2)=="0x"){
+                            tokens[3].erase(0,2+k);
+                            int imm=hex_to_dec(tokens[3]);
+                            if(neg)imd=dec_to_bin(pow(2,12)-abs(imm),12);
+                            else imd=dec_to_bin(hex_to_dec(tokens[3]),12);
+                        // cout<<"Here2";
+                        }
+                        if(tokens[3].substr(k,2)=="0b"){
+                            tokens[3].erase(0,2+k);
+                            while(tokens[3].size() < 12){
+                                tokens[3] = "0" + tokens[3];
+                            }
+                            imd=tokens[3];
+                        }
+                        else{
+                            int imm = stoi(tokens[3]);
+                            // cout<<pow(2,12)-abs(imm)<<endl;
+                            if(neg) imd=dec_to_bin(pow(2,12)-abs(imm),12);
+                            else imd=dec_to_bin(imm,12);
+                            // cout<<imd<<endl;
+                        }
+                        if(imd>upper_lim && !neg|| imd<lower_lim && neg)cout<<"0x"<<bin_to_hex(dec_to_bin(text_address, 32))<<" Immediate value out of Bounds"<<endl;
+                        else{
+                            string code=imd+r1+i_func3[tokens[0]]+dest+i_opcode[tokens[0]];
+                            cout<<"0x"<<bin_to_hex(dec_to_bin(text_address, 32))<<" 0x"<<bin_to_hex(code)<<endl;
+                        }
+                    }
                     
                     
                 //31 instructions code ends
