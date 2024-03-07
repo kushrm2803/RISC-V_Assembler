@@ -66,6 +66,7 @@ int main(int argc, char* argv[]){
         string instruct;
         while(getline(fin, instruct)){
             vector<string> tokens = instructionToToken(instruct);
+            if(tokens.empty())continue;
             if(mode == 0){ // text-mode
                 if(tokens[0]==".data"){
                     mode = 1;
@@ -91,7 +92,7 @@ int main(int argc, char* argv[]){
                     }
                     // I-type
                     
-                        
+                    
                 //31 instructions code ends
                 text_address+=4;
             }
