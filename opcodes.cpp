@@ -8,6 +8,14 @@ map<string, string> r_func3;
 map<string, string> r_opcode;
 map<string, string> i_opcode;
 map<string, string> i_func3;
+map<string, string> s_opcode;
+map<string, string> s_func3;
+map<string, string> sb_opcode;
+map<string, string> sb_func3;
+map<string, string> u_opcode;
+map<string, string> uj_opcode;
+
+
 void defineAllOpcodes(){
     r_opcode["add"]="0110011";
     r_opcode["and"]="0110011";
@@ -65,6 +73,34 @@ void defineAllOpcodes(){
    i_func3["lh"]="001";
    i_func3["lw"]="010";
    i_func3["jalr"]="000";
+
+   s_opcode["sb"]="0100011";
+   s_opcode["sh"]="0100011";
+   s_opcode["sw"]="0100011";
+   s_opcode["sd"]="0100011";
+
+   s_func3["sb"]="000";
+   s_func3["sh"]="001";
+   s_func3["sw"]="010";
+   s_func3["sd"]="011";
+
+   sb_opcode["beq"]="1100011";
+   sb_opcode["bne"]="1100011";
+   sb_opcode["blt"]="1100011";
+   sb_opcode["bge"]="1100011";
+   
+
+   sb_func3["beq"]="000";
+   sb_func3["bne"]="001";
+   sb_func3["blt"]="100";
+   sb_func3["bge"]="101";
+   
+   u_opcode["auipc"]="0010111";
+   u_opcode["lui"]="0110111";
+
+   uj_opcode["jal"]="1101111";
+
+
 }
 
 string dec_to_bin(int num, int n){
