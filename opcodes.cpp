@@ -125,7 +125,6 @@ void offset_separate(vector<string> &tokens){
         src2+=tokens[2][i];
         i++;
     }
-    // cout<<off<<" "<<src2<<endl;
     tokens[2]=src2;
-    tokens[3]=off;
+    tokens.push_back(off);
 }
