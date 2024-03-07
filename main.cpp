@@ -125,9 +125,13 @@ int main(int argc, char *argv[])
                     string r1 = dec_to_bin(ir1, 5);
                     int k = 0;
                     bool neg = false;
+                    bool error = false;
                     string imd;
                     string upper_lim = "011111111111";
                     string lower_lim = "100000000000";
+                    set<char> valid_hex = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', '-'};
+                    set<char> valid_dig = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '-'};
+                    set<char> valid_bin = {'0', '1'};
                     if (tokens[3][k] == '-')
                     {
                         neg = true;
@@ -136,6 +140,9 @@ int main(int argc, char *argv[])
                     if (tokens[3].substr(k, 2) == "0x")
                     {
                         tokens[3].erase(0, 2 + k);
+                        for (auto i : tokens[3])
+                            if (valid_hex.find(i) == valid_hex.end())
+                                error = true;
                         int imm = hex_to_dec(tokens[3]);
                         if (neg)
                             imd = dec_to_bin(pow(2, 12) - abs(imm), 12);
@@ -151,9 +158,15 @@ int main(int argc, char *argv[])
                             tokens[3] = "0" + tokens[3];
                         }
                         imd = tokens[3];
+                        for (auto i : imd)
+                            if (valid_bin.find(i) == valid_bin.end())
+                                error = true;
                     }
                     else
                     {
+                        for (auto i : tokens[3])
+                            if (valid_dig.find(i) == valid_dig.end())
+                                error = true;
                         int imm = stoi(tokens[3]);
                         // cout<<pow(2,12)-abs(imm)<<endl;
                         if (neg)
@@ -162,12 +175,72 @@ int main(int argc, char *argv[])
                             imd = dec_to_bin(imm, 12);
                         // cout<<imd<<endl;
                     }
-                    cout << imd << endl;
-                    if ((imd > upper_lim && !neg) || (imd < lower_lim && neg) || imd.size() > 12)
+                    // cout << imd << endl;
+                    if (((imd > upper_lim && !neg) || (imd < lower_lim && neg) || imd.size() > 12) && !error)
                         cout << "0x" << bin_to_hex(dec_to_bin(text_address, 1)) << " Immediate value out of bounds" << endl;
+                    else if (error)
+                        cout << "0x" << bin_to_hex(dec_to_bin(text_address, 1)) << " Wrong inputs" << endl;
                     else
                     {
                         string code = imd + r1 + i_func3[tokens[0]] + dest + i_opcode[tokens[0]];
+                        cout << "0x" << bin_to_hex(dec_to_bin(text_address, 1)) << " 0x" << bin_to_hex(code) << endl;
+                    }
+                }
+
+                // U-type
+                else if (u_opcode.find(tokens[0]) != u_opcode.end())
+                {
+                    tokens[1].erase(0, 1);
+                    int idest = stoi(tokens[1]);
+                    string dest = dec_to_bin(idest, 5);
+                    string imd;
+                    string upper_lim = "11111111111111111111";
+                    string lower_lim = "00000000000000000000";
+                    bool neg = false;
+                    bool error = false;
+                    set<char> valid_hex = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', '-'};
+                    set<char> valid_dig = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '-'};
+                    set<char> valid_bin = {'0', '1'};
+                    if (tokens[2][0] == '-'){
+                        neg = true;
+                        tokens[2].erase(0,1);
+                    }
+                    if (tokens[2].substr(0, 2) == "0x")
+                    {
+                        tokens[2].erase(0, 2);
+                        for (auto i : tokens[2])
+                            if (valid_hex.find(i) == valid_hex.end())
+                                error = true;
+                        int imm = hex_to_dec(tokens[2]);
+                        imd = dec_to_bin(hex_to_dec(tokens[2]), 20);
+                    }
+                    else if (tokens[2].substr(0, 2) == "0b")
+                    {
+                        tokens[2].erase(0, 2);
+                        while (tokens[2].size() < 12)
+                        {
+                            tokens[2] = "0" + tokens[2];
+                        }
+                        imd = tokens[2];
+                        for (auto i : imd)
+                            if (valid_bin.find(i) == valid_bin.end())
+                                error = true;
+                    }
+                    else
+                    {
+                        for (auto i : tokens[2])
+                            if (valid_dig.find(i) == valid_dig.end())
+                                error = true;
+                        int imm = stoi(tokens[2]);
+                        imd = dec_to_bin(imm, 20);
+                    }
+                    if ((imd > upper_lim || imd < lower_lim || imd.size() > 20 || neg) && !error)
+                        cout << "0x" << bin_to_hex(dec_to_bin(text_address, 1)) << " Immediate value out of bounds" << endl;
+                    else if (error)
+                        cout << "0x" << bin_to_hex(dec_to_bin(text_address, 1)) << " Wrong inputs" << endl;
+                    else
+                    {
+                        string code = imd + dest + u_opcode[tokens[0]];
                         cout << "0x" << bin_to_hex(dec_to_bin(text_address, 1)) << " 0x" << bin_to_hex(code) << endl;
                     }
                 }
