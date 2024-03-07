@@ -2,6 +2,8 @@
 #include<vector>
 #include<fstream>
 #include<map>
+#include<algorithm>
+#include "opcodes.cpp"
 using namespace std;
 
 map<string, int> mp;
@@ -36,7 +38,7 @@ vector<string> instructionToToken(string instruct){
                 flag = true;
                 break;
             }
-            if(instruct[j]==':'){   //labeling 
+            if(instruct[j]==':' && mode == 0){   //labeling in case of text-mode
                 mp[word] = text_address;
                 word.erase();
                 j++;
@@ -52,6 +54,7 @@ vector<string> instructionToToken(string instruct){
 }
 
 int main(int argc, char* argv[]){
+    defineAllOpcodes();
     mode = 0;//intial mode is text
     text_address = 0;
     for(int i=1;i<=argc;i++){
@@ -62,16 +65,44 @@ int main(int argc, char* argv[]){
         fin.open(in);
         string instruct;
         while(getline(fin, instruct)){
+            vector<string> tokens = instructionToToken(instruct);
             if(mode == 0){ // text-mode
-                vector<string> tokens = instructionToToken(instruct);
                 if(tokens[0]==".data"){
                     mode = 1;
                     continue;
                 }
+                //31 instructions code begins
+
+                    //R-type
+                    if(r_func7.find(tokens[0]) != r_func7.end()){
+                        tokens[1].erase(0, 1);
+                        tokens[2].erase(0, 1);
+                        tokens[3].erase(0, 1);
+                        int idest = stoi(tokens[1]);
+                        int ir1 = stoi(tokens[2]);
+                        int ir2 = stoi(tokens[3]);
+                        //cout<<"h";
+                        string dest = dec_to_bin(idest, 5);
+                        string r1 = dec_to_bin(ir1, 5);
+                        string r2 = dec_to_bin(ir2, 5);
+                        string code = r_func7[tokens[0]] + r2 + r1 + r_func3[tokens[0]] + dest + "0110011";
+                        code = bin_to_hex(code);
+                        cout<<"0x"<<bin_to_hex(dec_to_bin(text_address, 32))<<" 0x"<<code<<endl;
+                    }
+                    // I-type
+                    
+                        
+                //31 instructions code ends
                 text_address+=4;
             }
             else{   //data-mode
-                // new funciton will be made to tokenize our insturction or edit the same function :(
+                if(tokens[0] == ".text"){
+                    mode = 0;
+                    continue;
+                }
+                //data begins
+
+                //data ends
             }
         }
     }

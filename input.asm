@@ -1,7 +1,3 @@
-add x10 x1,#x12
-
-
-
-
-.labe:ladd          ,,,,,    x12 x16 x0
-fds fsdf rew efsf e sfsef sefss        efs          esf sfd
+add x10 x10 x10 
+and x0 x0 x0 
+srl x0 x0 x23
