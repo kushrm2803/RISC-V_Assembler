@@ -110,3 +110,22 @@ int hex_to_dec(string hex){
     // cout<<num;
     return num;
 }
+
+void offset_separate(vector<string> &tokens){
+    //ld x12 4(x5)->tokens[0]=ld tokens[1]=x12 tokens[2]=x5 tokens[3]=4;
+    int i=0;
+    string off="";
+    while(tokens[2][i]!='('){
+        off+=tokens[2][i];
+        i++;
+    }
+    i++;
+    string src2="";
+    while(tokens[2][i]!=')'){
+        src2+=tokens[2][i];
+        i++;
+    }
+    // cout<<off<<" "<<src2<<endl;
+    tokens[2]=src2;
+    tokens[3]=off;
+}
