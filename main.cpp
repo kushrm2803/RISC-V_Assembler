@@ -113,7 +113,7 @@ int main(int argc, char *argv[])
                 // I-type
                 else if (i_func3.find(tokens[0]) != i_func3.end())
                 {
-                    if(tokens[0]=="lb" ||tokens[0]=="lw" ||tokens[0]=="ld" ||tokens[0]=="lh")
+                    if (tokens[0] == "lb" || tokens[0] == "lw" || tokens[0] == "ld" || tokens[0] == "lh")
                         offset_separate(tokens);
                     tokens[1].erase(0, 1);
                     tokens[2].erase(0, 1);
@@ -162,7 +162,7 @@ int main(int argc, char *argv[])
                             imd = dec_to_bin(imm, 12);
                         // cout<<imd<<endl;
                     }
-                    cout<<imd<<endl;
+                    cout << imd << endl;
                     if ((imd > upper_lim && !neg) || (imd < lower_lim && neg) || imd.size() > 12)
                         cout << "0x" << bin_to_hex(dec_to_bin(text_address, 1)) << " Immediate value out of bounds" << endl;
                     else
