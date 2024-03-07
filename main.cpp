@@ -89,7 +89,7 @@ int main(int argc, char* argv[]){
                         string r2 = dec_to_bin(ir2, 5);
                         string code = r_func7[tokens[0]] + r2 + r1 + r_func3[tokens[0]] + dest + r_opcode[tokens[0]];
                         code = bin_to_hex(code);
-                        cout<<"0x"<<bin_to_hex(dec_to_bin(text_address, 32))<<" 0x"<<code<<endl;
+                        cout<<"0x"<<bin_to_hex(dec_to_bin(text_address, 1))<<" 0x"<<code<<endl;
                     }
                     // I-type
                     if(i_func3.find(tokens[0])!=i_func3.end()){
