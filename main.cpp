@@ -171,6 +171,77 @@ int main(int argc, char *argv[])
                         cout << "0x" << bin_to_hex(dec_to_bin(text_address, 1)) << " 0x" << bin_to_hex(code) << endl;
                     }
                 }
+                //S-type
+                else if(s_func3.find(tokens[0]) != s_func3.end()){
+                    offset_separate(tokens);
+                    tokens[1].erase(0, 1);
+                    tokens[2].erase(0, 1);
+
+                   // cout<<tokens[1]<<" "<<tokens[2]<<" "<<tokens[3]<<endl;
+                    
+                    int rs2 = stoi(tokens[1]);
+                    int rs1 = stoi(tokens[2]);
+
+                    string fr2 = dec_to_bin(rs2, 5);
+                    string fr1 = dec_to_bin(rs1, 5);
+                    
+                    int k = 0;
+                    bool neg = false;
+                    string imd;
+                    string upper_lim = "011111111111";
+                    string lower_lim = "100000000000";
+                    if (tokens[3][k] == '-')
+                    {
+                        neg = true;
+                        k++;
+                    }
+                    if (tokens[3].substr(k, 2) == "0x")
+                    {
+                        tokens[3].erase(0, 2 + k);
+                        int imm = hex_to_dec(tokens[3]);
+                        if (neg)
+                            imd = dec_to_bin(pow(2, 12) - abs(imm), 12);
+                        else
+                            imd = dec_to_bin(hex_to_dec(tokens[3]), 12);
+                        // cout<<"Here2";
+                    }
+                    else if (tokens[3].substr(k, 2) == "0b")
+                    {
+                        tokens[3].erase(0, 2 + k);
+                        while (tokens[3].size() < 12)
+                        {
+                            tokens[3] = "0" + tokens[3];
+                        }
+                        imd = tokens[3];
+                    }
+                    else
+                    {
+                        int imm = stoi(tokens[3]);
+                        // cout<<pow(2,12)-abs(imm)<<endl;
+                        if (neg)
+                            imd = dec_to_bin(pow(2, 12) - abs(imm), 12);
+                        else
+                            imd = dec_to_bin(imm, 12);
+                        // cout<<imd<<endl;
+                    }
+                    //cout << imd << endl;
+
+                    string i1 = imd.substr(0,7);
+                    string i2 = imd.substr(7,5);
+
+                    //cout<< i1 << endl;
+                    //cout<< i2 << endl;
+
+                    if ((imd > upper_lim && !neg) || (imd < lower_lim && neg) || imd.size() > 12)
+                        cout << "0x" << bin_to_hex(dec_to_bin(text_address, 1)) << " Immediate value out of bounds" << endl;
+                    else
+                    {
+                        string code = i1 + fr2 + fr1 + s_func3[tokens[0]] + i2 + s_opcode[tokens[0]];
+                        cout << "0x" << bin_to_hex(dec_to_bin(text_address, 1)) << " 0x" << bin_to_hex(code) << endl;
+                    }
+
+
+                }
 
                 // 31 instructions code ends
                 text_address += 4;

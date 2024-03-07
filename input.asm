@@ -5,3 +5,5 @@ addi x1 x0 3996
 andi x12 x12 -12345
 ld x12 0(x13)
 lh x12 0b101110101(x12)
+sb x8 32(x7)
+sw x6 -4(x5)
