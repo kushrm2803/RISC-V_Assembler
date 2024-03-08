@@ -384,7 +384,10 @@ int main(int argc, char *argv[])
                 }
                 else if(tokens[0] == ".data") continue;
                 // data begins
-
+                cout<<tokens[0]<<" "<<tokens[1]<<" "<<tokens[2]<<" "<<tokens[4]<<endl;
+                if(tokens[2]==".word" || tokens[2]==".half" || tokens[2]==".dword" || tokens[2]==".byte" || tokens[2]==".asciiz"){
+                    
+                }
                 // data ends
             }
         }
