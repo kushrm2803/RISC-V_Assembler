@@ -1,5 +1,8 @@
 .data
 a : .word 0xAF,14,0b11010111
+b : .byte 10,0x81,0b11111111
+c : .half 0x55,20,0b11000001 
+d : .dword 0x77,90,0b111111111
 .text
 label1:
 add x10 x10 x10 

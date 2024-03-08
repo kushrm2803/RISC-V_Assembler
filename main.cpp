@@ -393,29 +393,27 @@ int main(int argc, char *argv[])
                 // cout<<tokens[0]<<" "<<tokens[1]<<" "<<tokens[2]<<" "<<tokens[4]<<endl;
                 if (tokens[2] == ".word" || tokens[2] == ".half" || tokens[2] == ".dword" || tokens[2] == ".byte" || tokens[2] == ".asciiz")
                 {
-                    if (tokens[2] == ".word")
+                    int i = 3;
+                    while (tokens[i]!="\0")
                     {
-                        int i = 3;
-                        while (tokens[i]!="\0")
+                    set<char> valid_hex = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', '-'};
+                    set<char> valid_dig = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '-'};
+                    set<char> valid_bin = {'0', '1'};
+                        int k=0;
+                        bool neg=false;
+                        bool error=false;
+                        if (tokens[i][k] == '-')
                         {
-                            set<char> valid_hex = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', '-'};
-                            set<char> valid_dig = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '-'};
-                            set<char> valid_bin = {'0', '1'};
-                            int k=0;
-                            bool neg=false;
-                            bool error=false;
-                            if (tokens[i][k] == '-')
-                            {
-                                neg = true;
-                                k++;
-                            }
-                            string data="";
-                            if (tokens[i].substr(k, 2) == "0x")
-                            {
-                                tokens[i].erase(0, 2 + k);
-                                for (auto itr : tokens[i])
-                                    if (valid_hex.find(itr) == valid_hex.end())
-                                        error = true;
+                            neg = true;
+                            k++;
+                        }
+                        string data="";
+                        if (tokens[i].substr(k, 2) == "0x")
+                        {
+                            tokens[i].erase(0, 2 + k);
+                            for (auto itr : tokens[i])
+                                if (valid_hex.find(itr) == valid_hex.end())
+                                 error = true;
                                 data="0x"+tokens[i];
                             }
                             else if (tokens[i].substr(k, 2) == "0b")
@@ -439,10 +437,23 @@ int main(int argc, char *argv[])
                             {
                                 cout << "0x" << bin_to_hex(dec_to_bin(data_address, 8)) << " "<<data << endl;
                             }
+                            if(tokens[2]==".word"){
                             data_address+=4;
+                            }
+                            else if(tokens[2]==".byte"){
+                                data_address+=1;
+                            }
+                            else if(tokens[2]==".half"){
+                                data_address+=2;
+                            }
+                            else if(tokens[2]==".dword"){
+                                data_address+=8;
+                            }
+                            else{
+                                
+                            }
                             i++;
                         }
-                    }
                 }
                 // data ends
             }
