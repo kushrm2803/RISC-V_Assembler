@@ -10,7 +10,6 @@ map<string, string> i_opcode;
 map<string, string> i_func3;
 map<string, string> s_opcode;
 map<string, string> s_func3;
-map<string, string> sb_opcode;
 map<string, string> sb_func3;
 map<string, string> u_opcode;
 
@@ -83,10 +82,6 @@ void defineAllOpcodes()
     s_func3["sw"] = "010";
     s_func3["sd"] = "011";
 
-    sb_opcode["beq"] = "1100011";
-    sb_opcode["bne"] = "1100011";
-    sb_opcode["blt"] = "1100011";
-    sb_opcode["bge"] = "1100011";
 
     sb_func3["beq"] = "000";
     sb_func3["bne"] = "001";
