@@ -497,7 +497,7 @@ int main(int argc, char *argv[])
                         cout << "0x" << bin_to_hex(dec_to_bin(data_address, 8)) << " " << c << endl;
                         data_address+=1;
                     }
-                    
+                    data_address+=1; // for terminating zero
                     
                 }
                 // data ends
