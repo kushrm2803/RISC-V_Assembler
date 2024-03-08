@@ -1,8 +1,10 @@
+beq x0 x0 do
+
 label1:
 add x10 x10 x10 
 and x0 x0 x0 
 srl x0 x0 x23
-
+do:
 jal x1 label1
 label2: and x0 x0 x0 
 srl x0 x0 x23
