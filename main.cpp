@@ -357,13 +357,14 @@ int main(int argc, char *argv[])
                         cout << "0x" << bin_to_hex(dec_to_bin(text_address, 1)) << " 0x" << bin_to_hex(code) << endl;
                     }
                 }
-                
-                //UJ-format // jal
-                else if(tokens[0] == "jal"){
+
+                // UJ-format // jal
+                else if (tokens[0] == "jal")
+                {
                     int imm = (mp[tokens[2]] - text_address);
                     // cout<<imm<<" ";
                     tokens[1].erase(0, 1);
-                    int dest = stoi(tokens[1]); 
+                    int dest = stoi(tokens[1]);
                     string imm1 = dec_to_bin(imm, 21);
                     string temp = imm1.substr(10, 10);
                     string temp2 = imm1.substr(1, 8);
@@ -373,10 +374,11 @@ int main(int argc, char *argv[])
                     // reverse(all(imm1));
                     string code = bin_to_hex(imm1 + dec_to_bin(dest, 5) + "1101111");
                     cout << "0x" << bin_to_hex(dec_to_bin(text_address, 1)) << " 0x";
-                    cout<<code<<endl;
+                    cout << code << endl;
                 }
                 // SB format
-                else if(sb_func3.find(tokens[0]) != sb_func3.end()){
+                else if (sb_func3.find(tokens[0]) != sb_func3.end())
+                {
                     tokens[1].erase(0, 1);
                     tokens[2].erase(0, 1);
                     int ir1 = stoi(tokens[1]);
@@ -385,13 +387,14 @@ int main(int argc, char *argv[])
                     string r2 = dec_to_bin(ir2, 5);
                     int imm = (mp[tokens[3]] - text_address);
                     string imm1 = dec_to_bin(imm, 13);
-                    string code = imm1[0] + imm1.substr(2,  6) + r2 + r1 + sb_func3[tokens[0]] + imm1.substr(8, 4) + imm1[1] + "1100011";
+                    string code = imm1[0] + imm1.substr(2, 6) + r2 + r1 + sb_func3[tokens[0]] + imm1.substr(8, 4) + imm1[1] + "1100011";
                     code = bin_to_hex(code);
                     cout << "0x" << bin_to_hex(dec_to_bin(text_address, 1)) << " 0x";
-                    cout<<code<<endl;
+                    cout << code << endl;
                 }
-                else{
-                    cout<<"command not recognized"<<endl;
+                else
+                {
+                    cout << "command not recognized" << endl;
                     return 0;
                 }
 
@@ -409,69 +412,89 @@ int main(int argc, char *argv[])
                     continue;
                 // data begins
                 // cout<<tokens[0]<<" "<<tokens[1]<<" "<<tokens[2]<<" "<<tokens[4]<<endl;
-                if (tokens[2] == ".word" || tokens[2] == ".half" || tokens[2] == ".dword" || tokens[2] == ".byte" || tokens[2] == ".asciiz")
+                if (tokens[2] == ".word" || tokens[2] == ".half" || tokens[2] == ".dword" || tokens[2] == ".byte")
                 {
                     int i = 3;
-                    while (tokens[i]!="\0")
+                    while (tokens[i] != "\0")
                     {
-                    set<char> valid_hex = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', '-'};
-                    set<char> valid_dig = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '-'};
-                    set<char> valid_bin = {'0', '1'};
-                        int k=0;
-                        bool neg=false;
-                        bool error=false;
+                        set<char> valid_hex = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', '-'};
+                        set<char> valid_dig = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '-'};
+                        set<char> valid_bin = {'0', '1'};
+                        int k = 0;
+                        bool neg = false;
+                        bool error = false;
                         if (tokens[i][k] == '-')
                         {
                             neg = true;
                             k++;
                         }
-                        string data="";
+                        string data = "";
                         if (tokens[i].substr(k, 2) == "0x")
                         {
                             tokens[i].erase(0, 2 + k);
                             for (auto itr : tokens[i])
                                 if (valid_hex.find(itr) == valid_hex.end())
-                                 error = true;
-                                data="0x"+tokens[i];
-                            }
-                            else if (tokens[i].substr(k, 2) == "0b")
-                            {
-                                tokens[i].erase(0, 2 + k);
-                                for (auto itr : data)
-                                    if (valid_bin.find(itr) == valid_bin.end())
-                                        error = true;
-                                data ="0b"+tokens[i];
-                            }
-                            else
-                            {
-                                for (auto itr : tokens[i])
-                                    if (valid_dig.find(itr) == valid_dig.end())
-                                        error = true;
-                                data+=tokens[i];
-                            }
-                            if (error)
-                                cout << "0x" << bin_to_hex(dec_to_bin(data_address, 8)) << " Wrong inputs" << endl;
-                            else
-                            {
-                                cout << "0x" << bin_to_hex(dec_to_bin(data_address, 8)) << " "<<data << endl;
-                            }
-                            if(tokens[2]==".word"){
-                            data_address+=4;
-                            }
-                            else if(tokens[2]==".byte"){
-                                data_address+=1;
-                            }
-                            else if(tokens[2]==".half"){
-                                data_address+=2;
-                            }
-                            else if(tokens[2]==".dword"){
-                                data_address+=8;
-                            }
-                            else{
-                                
-                            }
-                            i++;
+                                    error = true;
+                            data = "0x" + tokens[i];
                         }
+                        else if (tokens[i].substr(k, 2) == "0b")
+                        {
+                            tokens[i].erase(0, 2 + k);
+                            for (auto itr : data)
+                                if (valid_bin.find(itr) == valid_bin.end())
+                                    error = true;
+                            data = "0b" + tokens[i];
+                        }
+                        else
+                        {
+                            for (auto itr : tokens[i])
+                                if (valid_dig.find(itr) == valid_dig.end())
+                                    error = true;
+                            data += tokens[i];
+                        }
+                        if (error)
+                            cout << "0x" << bin_to_hex(dec_to_bin(data_address, 8)) << " Wrong inputs" << endl;
+                        else
+                        {
+                            cout << "0x" << bin_to_hex(dec_to_bin(data_address, 8)) << " " << data << endl;
+                        }
+                        if (tokens[2] == ".word")
+                        {
+                            data_address += 4;
+                        }
+                        else if (tokens[2] == ".byte")
+                        {
+                            data_address += 1;
+                        }
+                        else if (tokens[2] == ".half")
+                        {
+                            data_address += 2;
+                        }
+                        else if (tokens[2] == ".dword")
+                        {
+                            data_address += 8;
+                        }
+                        i++;
+                    }
+                }
+                else if (tokens[2] == ".asciiz")
+                {
+                    int i = 3;
+                    string data = "";
+                    int asciiz_len = 0;
+                    while (i<tokens.size())
+                    {
+                        data+=tokens[i];
+                        data+=" ";
+                        i++;
+                    }
+                    data.erase(0,1);
+                    data.pop_back();
+                    data.pop_back();
+                    asciiz_len=data.size();
+                    // cout << data << " " << asciiz_len << endl;
+                    cout << "0x" << bin_to_hex(dec_to_bin(data_address, 8)) << " " << data << endl;
+                    data_address+=asciiz_len+1; //+1 for null terminator
                 }
                 // data ends
             }
