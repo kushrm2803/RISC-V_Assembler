@@ -493,8 +493,12 @@ int main(int argc, char *argv[])
                     data.pop_back();
                     asciiz_len=data.size();
                     // cout << data << " " << asciiz_len << endl;
-                    cout << "0x" << bin_to_hex(dec_to_bin(data_address, 8)) << " " << data << endl;
-                    data_address+=asciiz_len+1; //+1 for null terminator
+                    for(char c : data){
+                        cout << "0x" << bin_to_hex(dec_to_bin(data_address, 8)) << " " << c << endl;
+                        data_address+=1;
+                    }
+                    
+                    
                 }
                 // data ends
             }
