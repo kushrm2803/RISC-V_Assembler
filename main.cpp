@@ -78,6 +78,7 @@ int main(int argc, char *argv[])
         ifstream fin;
         fin.open(in);
         string instruct;
+        //for generating all address of instructions
         while (getline(fin, instruct))
         {
             vector<string> tokens = instructionToToken(instruct);
@@ -90,6 +91,40 @@ int main(int argc, char *argv[])
                     mode = 1;
                     continue;
                 }
+                if(tokens[0] == ".text") continue;
+                text_address += 4;
+            }
+            else
+            {
+                if (tokens[0] == ".text")
+                {
+                    mode = 0;
+                    continue;
+                }
+                if(tokens[0] == ".data") continue;
+            }
+        }
+        fin.close();
+        //temp
+        for(auto it: mp){
+            cout<<it.first<<" "<<it.second<<endl;
+        }
+        //tmep
+        fin.open(in);
+        text_address=0;
+        while (getline(fin, instruct))
+        {
+            vector<string> tokens = instructionToToken(instruct);
+            if (tokens.empty())
+                continue;
+            if (mode == 0)
+            { // text-mode
+                if (tokens[0] == ".data")
+                {
+                    mode = 1;
+                    continue;
+                }
+                if(tokens[0] == ".text") continue;
                 // 31 instructions code begins
 
                 // R-type
@@ -348,6 +383,7 @@ int main(int argc, char *argv[])
                     mode = 0;
                     continue;
                 }
+                else if(tokens[0] == ".data") continue;
                 // data begins
 
                 // data ends
