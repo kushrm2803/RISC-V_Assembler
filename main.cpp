@@ -1,9 +1,11 @@
+#include<bits/stdc++.h>
 #include <iostream>
 #include <vector>
 #include <fstream>
 #include <map>
 #include <algorithm>
 #include "opcodes.cpp"
+#include "utilities.cpp"
 using namespace std;
 
 map<string, int> mp;
@@ -11,23 +13,6 @@ int text_address;
 int data_address;
 int mode; // 0 -> .text && 1 -> .data
 
-string chartostring(char *ch)
-{
-    int i = 0;
-    string ans;
-    while (ch[i] != '\0')
-    {
-        ans += ch[i];
-        i++;
-    }
-    return ans;
-}
-string outputfilename(string in)
-{
-    in.erase(in.size() - 3);
-    in += "mc";
-    return in;
-}
 vector<string> instructionToToken(string instruct)
 {
     vector<string> token;
@@ -105,11 +90,6 @@ int main(int argc, char *argv[])
             }
         }
         fin.close();
-        //temp
-        for(auto it: mp){
-            cout<<it.first<<" "<<it.second<<endl;
-        }
-        //tmep
         fin.open(in);
         text_address=0;
         while (getline(fin, instruct))
