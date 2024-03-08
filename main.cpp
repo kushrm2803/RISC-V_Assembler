@@ -7,6 +7,7 @@
 #include "opcodes.cpp"
 #include "utilities.cpp"
 using namespace std;
+#define all(a) a.begin(), a.end()
 
 map<string, int> mp;
 int text_address;
@@ -356,6 +357,25 @@ int main(int argc, char *argv[])
                         cout << "0x" << bin_to_hex(dec_to_bin(text_address, 1)) << " 0x" << bin_to_hex(code) << endl;
                     }
                 }
+                
+                //UJ-format // jal
+                else if(tokens[0] == "jal"){
+                    int imm = (mp[tokens[2]] - text_address);
+                    // cout<<imm<<" ";
+                    tokens[1].erase(0, 1);
+                    int dest = stoi(tokens[1]); 
+                    string imm1 = dec_to_bin(imm, 21);
+                    string temp = imm1.substr(10, 10);
+                    string temp2 = imm1.substr(1, 8);
+                    // reverse(all(temp));
+                    // reverse(all(temp2));
+                    imm1 = imm1[0] + temp + imm1[9] + temp2;
+                    // reverse(all(imm1));
+                    string code = bin_to_hex(imm1 + dec_to_bin(dest, 5) + "1101111");
+                    cout << "0x" << bin_to_hex(dec_to_bin(text_address, 1)) << " 0x";
+                    cout<<code<<endl;
+                }
+
 
                 // 31 instructions code ends
                 text_address += 4;

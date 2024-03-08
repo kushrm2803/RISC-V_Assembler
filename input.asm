@@ -1,7 +1,12 @@
 .data
 a : .word 0xAF,14,0b11010111
 .text
-label1: add x10 x10 x10 
+label1:
+add x10 x10 x10 
+and x0 x0 x0 
+srl x0 x0 x23
+
+jal x1 label1
 label2: and x0 x0 x0 
 srl x0 x0 x23
 addi x1 x0 3996

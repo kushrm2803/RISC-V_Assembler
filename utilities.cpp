@@ -22,6 +22,7 @@ string outputfilename(string in)
 
 string dec_to_bin(int num, int n)
 {
+    if(num < 0) {num = (1<<(n)) + num + 1;}
     string ans = "";
     while (num)
     {
