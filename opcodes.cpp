@@ -12,6 +12,7 @@ map<string, string> s_opcode;
 map<string, string> s_func3;
 map<string, string> sb_func3;
 map<string, string> u_opcode;
+map<string, string> uj_opcode;
 
 void defineAllOpcodes()
 {
@@ -91,5 +92,5 @@ void defineAllOpcodes()
     u_opcode["auipc"] = "0010111";
     u_opcode["lui"] = "0110111";
 
+    uj_opcode["jal"] = "1101111";
 }
-

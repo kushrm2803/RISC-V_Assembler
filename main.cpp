@@ -7,7 +7,7 @@
 #include "opcodes.cpp"
 #include "utilities.cpp"
 using namespace std;
-#define all(a) a.begin(), a.end()
+#define all(a) a.begin(), a.end() //
 
 map<string, int> mp;
 int text_address;
@@ -423,6 +423,8 @@ int main(int argc, char *argv[])
                         int k = 0;
                         bool neg = false;
                         bool error = false;
+                        map<string, int> data_size = {{".dword", 16}, {".byte", 2}, {".word", 8}, {".half", 4}};
+                        vector<string> memory_block;
                         if (tokens[i][k] == '-')
                         {
                             neg = true;
@@ -435,7 +437,12 @@ int main(int argc, char *argv[])
                             for (auto itr : tokens[i])
                                 if (valid_hex.find(itr) == valid_hex.end())
                                     error = true;
-                            data = "0x" + tokens[i];
+                            data = tokens[i];
+                            if (data.size() > data_size[tokens[2]])
+                                error = true;
+                            while (data.size() < data_size[tokens[2]])
+                                data = "0" + data;
+                            // cout << data << endl;
                         }
                         else if (tokens[i].substr(k, 2) == "0b")
                         {
@@ -443,36 +450,36 @@ int main(int argc, char *argv[])
                             for (auto itr : data)
                                 if (valid_bin.find(itr) == valid_bin.end())
                                     error = true;
-                            data = "0b" + tokens[i];
+                            data = tokens[i];
+                            data = bin_to_hex(data);
+                            if (data.size() > data_size[tokens[2]])
+                                error = true;
+                            while (data.size() < data_size[tokens[2]])
+                                data = "0" + data;
+                            // cout << data << endl;
                         }
                         else
                         {
                             for (auto itr : tokens[i])
                                 if (valid_dig.find(itr) == valid_dig.end())
                                     error = true;
-                            data += tokens[i];
+                            data = dec_to_hex(stoi(tokens[i]));
+                            if (data.size() > data_size[tokens[2]])
+                                error = true;
+                            while (data.size() < data_size[tokens[2]])
+                                data = "0" + data;
+                            // cout << data << endl;
                         }
                         if (error)
                             cout << "0x" << bin_to_hex(dec_to_bin(data_address, 8)) << " Wrong inputs" << endl;
-                        else
-                        {
-                            cout << "0x" << bin_to_hex(dec_to_bin(data_address, 8)) << " " << data << endl;
-                        }
-                        if (tokens[2] == ".word")
-                        {
-                            data_address += 4;
-                        }
-                        else if (tokens[2] == ".byte")
-                        {
-                            data_address += 1;
-                        }
-                        else if (tokens[2] == ".half")
-                        {
-                            data_address += 2;
-                        }
-                        else if (tokens[2] == ".dword")
-                        {
-                            data_address += 8;
+                        else{
+                            // All the memory values will be printed in Hexadecimal
+                            int j=data_size[tokens[2]]-2;
+                            while(j>=0){
+                                cout<<"0x"<<bin_to_hex(dec_to_bin(data_address, 8))<<" "<<data.substr(j,2)<<endl;
+                                j-=2;
+                                data_address++;
+                            }
                         }
                         i++;
                     }
@@ -482,23 +489,23 @@ int main(int argc, char *argv[])
                     int i = 3;
                     string data = "";
                     int asciiz_len = 0;
-                    while (i<tokens.size())
+                    while (i < tokens.size())
                     {
-                        data+=tokens[i];
-                        data+=" ";
+                        data += tokens[i];
+                        data += " ";
                         i++;
                     }
-                    data.erase(0,1);
+                    data.erase(0, 1);
                     data.pop_back();
                     data.pop_back();
-                    asciiz_len=data.size();
+                    asciiz_len = data.size();
                     // cout << data << " " << asciiz_len << endl;
                     for(char c : data){
                         cout << "0x" << bin_to_hex(dec_to_bin(data_address, 8)) << " " << c << endl;
                         data_address+=1;
                     }
+                    cout << "0x" << bin_to_hex(dec_to_bin(data_address, 8)) << " " << "00" << endl;
                     data_address+=1; // for terminating zero
-                    
                 }
                 // data ends
             }
