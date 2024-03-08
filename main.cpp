@@ -204,7 +204,7 @@ int main(int argc, char *argv[])
                     else
                     {
                         string code = imd + r1 + i_func3[tokens[0]] + dest + i_opcode[tokens[0]];
-                        cout << "0x" << bin_to_hex(dec_to_bin(text_address, 1)) << " 0x" << bin_to_hex(code) << endl;
+                        cout << "0x" << bin_to_hex(dec_to_bin(text_address, 0)) << " 0x" << bin_to_hex(code) << endl;
                     }
                 }
                 // S-type
@@ -375,7 +375,25 @@ int main(int argc, char *argv[])
                     cout << "0x" << bin_to_hex(dec_to_bin(text_address, 1)) << " 0x";
                     cout<<code<<endl;
                 }
-
+                // SB format
+                else if(sb_func3.find(tokens[0]) != sb_func3.end()){
+                    tokens[1].erase(0, 1);
+                    tokens[2].erase(0, 1);
+                    int ir1 = stoi(tokens[1]);
+                    int ir2 = stoi(tokens[2]);
+                    string r1 = dec_to_bin(ir1, 5);
+                    string r2 = dec_to_bin(ir2, 5);
+                    int imm = (mp[tokens[3]] - text_address);
+                    string imm1 = dec_to_bin(imm, 13);
+                    string code = imm1[0] + imm1.substr(2,  6) + r2 + r1 + sb_func3[tokens[0]] + imm1.substr(8, 4) + imm1[1] + "1100011";
+                    code = bin_to_hex(code);
+                    cout << "0x" << bin_to_hex(dec_to_bin(text_address, 1)) << " 0x";
+                    cout<<code<<endl;
+                }
+                else{
+                    cout<<"command not recognized"<<endl;
+                    return 0;
+                }
 
                 // 31 instructions code ends
                 text_address += 4;
