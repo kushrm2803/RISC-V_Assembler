@@ -1,4 +1,4 @@
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 #include <iostream>
 #include <vector>
 #include <fstream>
@@ -63,36 +63,7 @@ int main(int argc, char *argv[])
         ifstream fin;
         fin.open(in);
         string instruct;
-        //for generating all address of instructions
-        while (getline(fin, instruct))
-        {
-            vector<string> tokens = instructionToToken(instruct);
-            if (tokens.empty()) continue;
-            if (mode == 0)
-            { // text-mode
-                if (tokens[0] == ".data")
-                {
-                    mode = 1;
-                    continue;
-                }
-                if(tokens[0] == ".text") continue;
-                text_address += 4;
-            }
-            else
-            {
-                if (tokens[0] == ".text")
-                {
-                    mode = 0;
-                    continue;
-                }
-                if(tokens[0] == ".data") continue;
-            }
-        }
-        fin.close();
-        fin.open(in);
-        text_address=0;
-
-        //main code starts here
+        // for generating all address of instructions
         while (getline(fin, instruct))
         {
             vector<string> tokens = instructionToToken(instruct);
@@ -105,7 +76,40 @@ int main(int argc, char *argv[])
                     mode = 1;
                     continue;
                 }
-                if(tokens[0] == ".text") continue;
+                if (tokens[0] == ".text")
+                    continue;
+                text_address += 4;
+            }
+            else
+            {
+                if (tokens[0] == ".text")
+                {
+                    mode = 0;
+                    continue;
+                }
+                if (tokens[0] == ".data")
+                    continue;
+            }
+        }
+        fin.close();
+        fin.open(in);
+        text_address = 0;
+        data_address = 268435456;
+        // main code starts here
+        while (getline(fin, instruct))
+        {
+            vector<string> tokens = instructionToToken(instruct);
+            if (tokens.empty())
+                continue;
+            if (mode == 0)
+            { // text-mode
+                if (tokens[0] == ".data")
+                {
+                    mode = 1;
+                    continue;
+                }
+                if (tokens[0] == ".text")
+                    continue;
                 // 31 instructions code begins
 
                 // R-type
@@ -202,20 +206,21 @@ int main(int argc, char *argv[])
                         cout << "0x" << bin_to_hex(dec_to_bin(text_address, 1)) << " 0x" << bin_to_hex(code) << endl;
                     }
                 }
-                //S-type
-                else if(s_func3.find(tokens[0]) != s_func3.end()){
+                // S-type
+                else if (s_func3.find(tokens[0]) != s_func3.end())
+                {
                     offset_separate(tokens);
                     tokens[1].erase(0, 1);
                     tokens[2].erase(0, 1);
 
-                   // cout<<tokens[1]<<" "<<tokens[2]<<" "<<tokens[3]<<endl;
-                    
+                    // cout<<tokens[1]<<" "<<tokens[2]<<" "<<tokens[3]<<endl;
+
                     int rs2 = stoi(tokens[1]);
                     int rs1 = stoi(tokens[2]);
 
                     string fr2 = dec_to_bin(rs2, 5);
                     string fr1 = dec_to_bin(rs1, 5);
-                    
+
                     int k = 0;
                     bool neg = false;
                     bool error = false;
@@ -259,10 +264,9 @@ int main(int argc, char *argv[])
                         for (auto i : imd)
                             if (valid_bin.find(i) == valid_bin.end())
                                 error = true;
-
                     }
                     else
-                    {   
+                    {
                         for (auto i : tokens[3])
                             if (valid_dig.find(i) == valid_dig.end())
                                 error = true;
@@ -275,13 +279,13 @@ int main(int argc, char *argv[])
                             imd = dec_to_bin(imm, 12);
                         // cout<<imd<<endl;
                     }
-                    //cout << imd << endl;
+                    // cout << imd << endl;
 
-                    string i1 = imd.substr(0,7);
-                    string i2 = imd.substr(7,5);
+                    string i1 = imd.substr(0, 7);
+                    string i2 = imd.substr(7, 5);
 
-                    //cout<< i1 << endl;
-                    //cout<< i2 << endl;
+                    // cout<< i1 << endl;
+                    // cout<< i2 << endl;
 
                     if ((imd > upper_lim && !neg) || (imd < lower_lim && neg) || imd.size() > 12)
                         cout << "0x" << bin_to_hex(dec_to_bin(text_address, 1)) << " Immediate value out of bounds" << endl;
@@ -308,9 +312,10 @@ int main(int argc, char *argv[])
                     set<char> valid_hex = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', '-'};
                     set<char> valid_dig = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '-'};
                     set<char> valid_bin = {'0', '1'};
-                    if (tokens[2][0] == '-'){
+                    if (tokens[2][0] == '-')
+                    {
                         neg = true;
-                        tokens[2].erase(0,1);
+                        tokens[2].erase(0, 1);
                     }
                     if (tokens[2].substr(0, 2) == "0x")
                     {
@@ -362,11 +367,62 @@ int main(int argc, char *argv[])
                     mode = 0;
                     continue;
                 }
-                else if(tokens[0] == ".data") continue;
+                else if (tokens[0] == ".data")
+                    continue;
                 // data begins
-                cout<<tokens[0]<<" "<<tokens[1]<<" "<<tokens[2]<<" "<<tokens[4]<<endl;
-                if(tokens[2]==".word" || tokens[2]==".half" || tokens[2]==".dword" || tokens[2]==".byte" || tokens[2]==".asciiz"){
-                    
+                // cout<<tokens[0]<<" "<<tokens[1]<<" "<<tokens[2]<<" "<<tokens[4]<<endl;
+                if (tokens[2] == ".word" || tokens[2] == ".half" || tokens[2] == ".dword" || tokens[2] == ".byte" || tokens[2] == ".asciiz")
+                {
+                    if (tokens[2] == ".word")
+                    {
+                        int i = 3;
+                        while (tokens[i]!="\0")
+                        {
+                            set<char> valid_hex = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', '-'};
+                            set<char> valid_dig = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '-'};
+                            set<char> valid_bin = {'0', '1'};
+                            int k=0;
+                            bool neg=false;
+                            bool error=false;
+                            if (tokens[i][k] == '-')
+                            {
+                                neg = true;
+                                k++;
+                            }
+                            string data="";
+                            if (tokens[i].substr(k, 2) == "0x")
+                            {
+                                tokens[i].erase(0, 2 + k);
+                                for (auto itr : tokens[i])
+                                    if (valid_hex.find(itr) == valid_hex.end())
+                                        error = true;
+                                data="0x"+tokens[i];
+                            }
+                            else if (tokens[i].substr(k, 2) == "0b")
+                            {
+                                tokens[i].erase(0, 2 + k);
+                                for (auto itr : data)
+                                    if (valid_bin.find(itr) == valid_bin.end())
+                                        error = true;
+                                data ="0b"+tokens[i];
+                            }
+                            else
+                            {
+                                for (auto itr : tokens[i])
+                                    if (valid_dig.find(itr) == valid_dig.end())
+                                        error = true;
+                                data+=tokens[i];
+                            }
+                            if (error)
+                                cout << "0x" << bin_to_hex(dec_to_bin(data_address, 8)) << " Wrong inputs" << endl;
+                            else
+                            {
+                                cout << "0x" << bin_to_hex(dec_to_bin(data_address, 8)) << " "<<data << endl;
+                            }
+                            data_address+=4;
+                            i++;
+                        }
+                    }
                 }
                 // data ends
             }

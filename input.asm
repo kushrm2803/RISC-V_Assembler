@@ -1,3 +1,6 @@
+.data
+a : .word 0xAF,14,0b11010111
+.text
 label1: add x10 x10 x10 
 label2: and x0 x0 x0 
 srl x0 x0 x23
@@ -16,3 +19,5 @@ auipc x10,0xAAFG
 auipc x10,124378
 addi x1 x0 234G
 label5: sh x11 0A(x6)
+
+
