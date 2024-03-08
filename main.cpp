@@ -67,8 +67,7 @@ int main(int argc, char *argv[])
         while (getline(fin, instruct))
         {
             vector<string> tokens = instructionToToken(instruct);
-            if (tokens.empty())
-                continue;
+            if (tokens.empty()) continue;
             if (mode == 0)
             { // text-mode
                 if (tokens[0] == ".data")
@@ -92,6 +91,8 @@ int main(int argc, char *argv[])
         fin.close();
         fin.open(in);
         text_address=0;
+
+        //main code starts here
         while (getline(fin, instruct))
         {
             vector<string> tokens = instructionToToken(instruct);
@@ -291,8 +292,6 @@ int main(int argc, char *argv[])
                         string code = i1 + fr2 + fr1 + s_func3[tokens[0]] + i2 + s_opcode[tokens[0]];
                         cout << "0x" << bin_to_hex(dec_to_bin(text_address, 1)) << " 0x" << bin_to_hex(code) << endl;
                     }
-
-
                 }
 
                 // U-type
