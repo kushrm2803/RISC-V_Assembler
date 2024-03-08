@@ -1,5 +1,11 @@
+<<<<<<< HEAD
 beq x0 x0 do
 
+=======
+.data
+a : .word 0xAF,14,0b11010111
+.text
+>>>>>>> bc4617530a58f3b5754949a38c0e8a98ba6d27c9
 label1:
 add x10 x10 x10 
 and x0 x0 x0 
@@ -23,3 +29,5 @@ auipc x10,0xAAFG
 auipc x10,124378
 addi x1 x0 234G
 label5: sh x11 0A(x6)
+
+
