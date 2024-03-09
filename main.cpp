@@ -117,317 +117,325 @@ int main(int argc, char *argv[])
 
                 // R-type
                 if (r_func7.find(tokens[0]) != r_func7.end())
-                {   
-                    if(tokens.size()>4 || tokens[1].substr(0, 1) != "x"|| tokens[2].substr(0, 1) != "x" || tokens[3].substr(0, 1) != "x")
+                {
+                    if (tokens.size() > 4 || tokens[1].substr(0, 1) != "x" || tokens[2].substr(0, 1) != "x" || tokens[3].substr(0, 1) != "x")
                     {
-                        fout<<"Error"<<endl;
+                        fout << "Error" << endl;
                     }
                     else
                     {
-                    tokens[1].erase(0, 1);
-                    tokens[2].erase(0, 1);
-                    tokens[3].erase(0, 1);
-                    int idest = stoi(tokens[1]);
-                    int ir1 = stoi(tokens[2]);
-                    int ir2 = stoi(tokens[3]);
-                    // cout<<"h";
-                    string dest = dec_to_bin(idest, 5);
-                    string r1 = dec_to_bin(ir1, 5);
-                    string r2 = dec_to_bin(ir2, 5);
-                    string code = r_func7[tokens[0]] + r2 + r1 + r_func3[tokens[0]] + dest + r_opcode[tokens[0]];
-                    code = bin_to_hex(code);
-                    fout << "0x" << bin_to_hex(dec_to_bin(text_address, 1)) << " 0x" << code << endl;
+                        tokens[1].erase(0, 1);
+                        tokens[2].erase(0, 1);
+                        tokens[3].erase(0, 1);
+                        int idest = stoi(tokens[1]);
+                        int ir1 = stoi(tokens[2]);
+                        int ir2 = stoi(tokens[3]);
+                        // cout<<"h";
+                        string dest = dec_to_bin(idest, 5);
+                        string r1 = dec_to_bin(ir1, 5);
+                        string r2 = dec_to_bin(ir2, 5);
+                        string code = r_func7[tokens[0]] + r2 + r1 + r_func3[tokens[0]] + dest + r_opcode[tokens[0]];
+                        code = bin_to_hex(code);
+                        fout << "0x" << bin_to_hex(dec_to_bin(text_address, 1)) << " 0x" << code << endl;
                     }
-                    
                 }
 
                 // I-type
                 else if (i_func3.find(tokens[0]) != i_func3.end())
-                {   
+                {
                     if (tokens[0] == "lb" || tokens[0] == "lw" || tokens[0] == "ld" || tokens[0] == "lh")
                         offset_separate(tokens);
-                    if(tokens.size()>4 || tokens[1].substr(0, 1) != "x" || tokens[2].substr(0, 1) != "x" || tokens[3].substr(0, 1) == "x")
+                    if (tokens.size() > 4 || tokens[1].substr(0, 1) != "x" || tokens[2].substr(0, 1) != "x" || tokens[3].substr(0, 1) == "x")
                     {
-                        fout<<"Error"<<endl;
+                        fout << "Error" << endl;
                     }
-                    else{
-                    tokens[1].erase(0, 1);
-                    tokens[2].erase(0, 1);
-                    // fout<<tokens[1]<<" "<<tokens[2]<<" "<<tokens[3]<<endl;
-                    int idest = stoi(tokens[1]);
-                    int ir1 = stoi(tokens[2]);
-                    // fout<<"Here1";
-                    string dest = dec_to_bin(idest, 5);
-                    string r1 = dec_to_bin(ir1, 5);
-                    int k = 0;
-                    bool neg = false;
-                    bool error = false;
-                    string imd;
-                    string upper_lim = "011111111111";
-                    string lower_lim = "100000000000";
-                    set<char> valid_hex = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', '-'};
-                    set<char> valid_dig = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '-'};
-                    set<char> valid_bin = {'0', '1'};
-                    if (tokens[3][k] == '-')
+                    else
                     {
-                        neg = true;
-                        k++;
-                    }
-                    if (tokens[3].substr(k, 2) == "0x")
-                    {
-                        tokens[3].erase(0, 2 + k);
-                        for (auto i : tokens[3])
-                            if (valid_hex.find(i) == valid_hex.end())
-                                error = true;
-                        int imm = hex_to_dec(tokens[3]);
-                        if (neg)
-                            imd = dec_to_bin(pow(2, 12) - abs(imm), 12);
-                        else
-                            imd = dec_to_bin(hex_to_dec(tokens[3]), 12);
-                        // fout<<"Here2";
-                    }
-                    else if (tokens[3].substr(k, 2) == "0b")
-                    {
-                        tokens[3].erase(0, 2 + k);
-                        while (tokens[3].size() < 12)
+                        tokens[1].erase(0, 1);
+                        tokens[2].erase(0, 1);
+                        // fout<<tokens[1]<<" "<<tokens[2]<<" "<<tokens[3]<<endl;
+                        int idest = stoi(tokens[1]);
+                        int ir1 = stoi(tokens[2]);
+                        // fout<<"Here1";
+                        string dest = dec_to_bin(idest, 5);
+                        string r1 = dec_to_bin(ir1, 5);
+                        int k = 0;
+                        bool neg = false;
+                        bool error = false;
+                        string imd;
+                        string upper_lim = "011111111111";
+                        string lower_lim = "100000000000";
+                        set<char> valid_hex = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', '-'};
+                        set<char> valid_dig = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '-'};
+                        set<char> valid_bin = {'0', '1'};
+                        if (tokens[3][k] == '-')
                         {
-                            tokens[3] = "0" + tokens[3];
+                            neg = true;
+                            k++;
                         }
-                        imd = tokens[3];
-                        for (auto i : imd)
-                            if (valid_bin.find(i) == valid_bin.end())
-                                error = true;
-                    }
-                    else
-                    {
-                        for (auto i : tokens[3])
-                            if (valid_dig.find(i) == valid_dig.end())
-                                error = true;
-                        int imm = stoi(tokens[3]);
-                        // fout<<pow(2,12)-abs(imm)<<endl;
-                        if (neg)
-                            imd = dec_to_bin(pow(2, 12) - abs(imm), 12);
+                        if (tokens[3].substr(k, 2) == "0x")
+                        {
+                            tokens[3].erase(0, 2 + k);
+                            for (auto i : tokens[3])
+                                if (valid_hex.find(i) == valid_hex.end())
+                                    error = true;
+                            int imm = hex_to_dec(tokens[3]);
+                            if (neg)
+                                imd = dec_to_bin(pow(2, 12) - abs(imm), 12);
+                            else
+                                imd = dec_to_bin(hex_to_dec(tokens[3]), 12);
+                            // fout<<"Here2";
+                        }
+                        else if (tokens[3].substr(k, 2) == "0b")
+                        {
+                            tokens[3].erase(0, 2 + k);
+                            while (tokens[3].size() < 12)
+                            {
+                                tokens[3] = "0" + tokens[3];
+                            }
+                            imd = tokens[3];
+                            for (auto i : imd)
+                                if (valid_bin.find(i) == valid_bin.end())
+                                    error = true;
+                        }
                         else
-                            imd = dec_to_bin(imm, 12);
-                        // fout<<imd<<endl;
+                        {
+                            for (auto i : tokens[3])
+                                if (valid_dig.find(i) == valid_dig.end())
+                                    error = true;
+                            int imm = stoi(tokens[3]);
+                            // fout<<pow(2,12)-abs(imm)<<endl;
+                            if (neg)
+                                imd = dec_to_bin(pow(2, 12) - abs(imm), 12);
+                            else
+                                imd = dec_to_bin(imm, 12);
+                            // fout<<imd<<endl;
+                        }
+                        // fout << imd << endl;
+                        if (((imd > upper_lim && !neg) || (imd < lower_lim && neg) || imd.size() > 12) && !error)
+                            fout << "0x" << bin_to_hex(dec_to_bin(text_address, 1)) << " Immediate value out of bounds" << endl;
+                        else if (error)
+                            fout << "0x" << bin_to_hex(dec_to_bin(text_address, 1)) << " Wrong inputs" << endl;
+                        else
+                        {
+                            string code = imd + r1 + i_func3[tokens[0]] + dest + i_opcode[tokens[0]];
+                            fout << "0x" << bin_to_hex(dec_to_bin(text_address, 0)) << " 0x" << bin_to_hex(code) << endl;
+                        }
                     }
-                    // fout << imd << endl;
-                    if (((imd > upper_lim && !neg) || (imd < lower_lim && neg) || imd.size() > 12) && !error)
-                        fout << "0x" << bin_to_hex(dec_to_bin(text_address, 1)) << " Immediate value out of bounds" << endl;
-                    else if (error)
-                        fout << "0x" << bin_to_hex(dec_to_bin(text_address, 1)) << " Wrong inputs" << endl;
-                    else
-                    {
-                        string code = imd + r1 + i_func3[tokens[0]] + dest + i_opcode[tokens[0]];
-                        fout << "0x" << bin_to_hex(dec_to_bin(text_address, 0)) << " 0x" << bin_to_hex(code) << endl;
-                    }
-                  }
                 }
                 // S-type
                 else if (s_func3.find(tokens[0]) != s_func3.end())
-                {   
+                {
                     offset_separate(tokens);
 
-                    if(tokens.size()>4 || tokens[1].substr(0, 1) != "x" || tokens[2].substr(0, 1) != "x" || tokens[3].substr(0, 1) == "x"){
-                        fout<<"Error"<<endl;
-                    }
-                    else{
-                    
-                    tokens[1].erase(0, 1);
-                    tokens[2].erase(0, 1);
-
-                    // fout<<tokens[1]<<" "<<tokens[2]<<" "<<tokens[3]<<endl;
-
-                    int rs2 = stoi(tokens[1]);
-                    int rs1 = stoi(tokens[2]);
-
-                    string fr2 = dec_to_bin(rs2, 5);
-                    string fr1 = dec_to_bin(rs1, 5);
-
-                    int k = 0;
-                    bool neg = false;
-                    bool error = false;
-                    string imd;
-                    string upper_lim = "011111111111";
-                    string lower_lim = "100000000000";
-
-                    set<char> valid_hex = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', '-'};
-                    set<char> valid_dig = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '-'};
-                    set<char> valid_bin = {'0', '1'};
-
-                    if (tokens[3][k] == '-')
+                    if (tokens.size() > 4 || tokens[1].substr(0, 1) != "x" || tokens[2].substr(0, 1) != "x" || tokens[3].substr(0, 1) == "x")
                     {
-                        neg = true;
-                        k++;
+                        fout << "Error" << endl;
                     }
-                    if (tokens[3].substr(k, 2) == "0x")
+                    else
                     {
-                        tokens[3].erase(0, 2 + k);
 
-                        for (auto i : tokens[3])
-                            if (valid_hex.find(i) == valid_hex.end())
-                                error = true;
+                        tokens[1].erase(0, 1);
+                        tokens[2].erase(0, 1);
 
-                        int imm = hex_to_dec(tokens[3]);
-                        if (neg)
-                            imd = dec_to_bin(pow(2, 12) - abs(imm), 12);
-                        else
-                            imd = dec_to_bin(hex_to_dec(tokens[3]), 12);
-                        // fout<<"Here2";
-                    }
-                    else if (tokens[3].substr(k, 2) == "0b")
-                    {
-                        tokens[3].erase(0, 2 + k);
-                        while (tokens[3].size() < 12)
+                        // fout<<tokens[1]<<" "<<tokens[2]<<" "<<tokens[3]<<endl;
+
+                        int rs2 = stoi(tokens[1]);
+                        int rs1 = stoi(tokens[2]);
+
+                        string fr2 = dec_to_bin(rs2, 5);
+                        string fr1 = dec_to_bin(rs1, 5);
+
+                        int k = 0;
+                        bool neg = false;
+                        bool error = false;
+                        string imd;
+                        string upper_lim = "011111111111";
+                        string lower_lim = "100000000000";
+
+                        set<char> valid_hex = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', '-'};
+                        set<char> valid_dig = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '-'};
+                        set<char> valid_bin = {'0', '1'};
+
+                        if (tokens[3][k] == '-')
                         {
-                            tokens[3] = "0" + tokens[3];
+                            neg = true;
+                            k++;
                         }
-                        imd = tokens[3];
+                        if (tokens[3].substr(k, 2) == "0x")
+                        {
+                            tokens[3].erase(0, 2 + k);
 
-                        for (auto i : imd)
-                            if (valid_bin.find(i) == valid_bin.end())
-                                error = true;
-                    }
-                    else
-                    {
-                        for (auto i : tokens[3])
-                            if (valid_dig.find(i) == valid_dig.end())
-                                error = true;
+                            for (auto i : tokens[3])
+                                if (valid_hex.find(i) == valid_hex.end())
+                                    error = true;
 
-                        int imm = stoi(tokens[3]);
-                        // fout<<pow(2,12)-abs(imm)<<endl;
-                        if (neg)
-                            imd = dec_to_bin(pow(2, 12) - abs(imm), 12);
+                            int imm = hex_to_dec(tokens[3]);
+                            if (neg)
+                                imd = dec_to_bin(pow(2, 12) - abs(imm), 12);
+                            else
+                                imd = dec_to_bin(hex_to_dec(tokens[3]), 12);
+                            // fout<<"Here2";
+                        }
+                        else if (tokens[3].substr(k, 2) == "0b")
+                        {
+                            tokens[3].erase(0, 2 + k);
+                            while (tokens[3].size() < 12)
+                            {
+                                tokens[3] = "0" + tokens[3];
+                            }
+                            imd = tokens[3];
+
+                            for (auto i : imd)
+                                if (valid_bin.find(i) == valid_bin.end())
+                                    error = true;
+                        }
                         else
-                            imd = dec_to_bin(imm, 12);
-                        // fout<<imd<<endl;
-                    }
-                    // fout << imd << endl;
+                        {
+                            for (auto i : tokens[3])
+                                if (valid_dig.find(i) == valid_dig.end())
+                                    error = true;
 
-                    string i1 = imd.substr(0, 7);
-                    string i2 = imd.substr(7, 5);
+                            int imm = stoi(tokens[3]);
+                            // fout<<pow(2,12)-abs(imm)<<endl;
+                            if (neg)
+                                imd = dec_to_bin(pow(2, 12) - abs(imm), 12);
+                            else
+                                imd = dec_to_bin(imm, 12);
+                            // fout<<imd<<endl;
+                        }
+                        // fout << imd << endl;
 
-                    // fout<< i1 << endl;
-                    // fout<< i2 << endl;
+                        string i1 = imd.substr(0, 7);
+                        string i2 = imd.substr(7, 5);
 
-                    if ((imd > upper_lim && !neg) || (imd < lower_lim && neg) || imd.size() > 12)
-                        fout << "0x" << bin_to_hex(dec_to_bin(text_address, 1)) << " Immediate value out of bounds" << endl;
-                    else if (error)
-                        fout << "0x" << bin_to_hex(dec_to_bin(text_address, 1)) << " Wrong inputs" << endl;
-                    else
-                    {
-                        string code = i1 + fr2 + fr1 + s_func3[tokens[0]] + i2 + s_opcode[tokens[0]];
-                        fout << "0x" << bin_to_hex(dec_to_bin(text_address, 1)) << " 0x" << bin_to_hex(code) << endl;
-                    }
+                        // fout<< i1 << endl;
+                        // fout<< i2 << endl;
+
+                        if ((imd > upper_lim && !neg) || (imd < lower_lim && neg) || imd.size() > 12)
+                            fout << "0x" << bin_to_hex(dec_to_bin(text_address, 1)) << " Immediate value out of bounds" << endl;
+                        else if (error)
+                            fout << "0x" << bin_to_hex(dec_to_bin(text_address, 1)) << " Wrong inputs" << endl;
+                        else
+                        {
+                            string code = i1 + fr2 + fr1 + s_func3[tokens[0]] + i2 + s_opcode[tokens[0]];
+                            fout << "0x" << bin_to_hex(dec_to_bin(text_address, 1)) << " 0x" << bin_to_hex(code) << endl;
+                        }
                     }
                 }
 
                 // U-type
                 else if (u_opcode.find(tokens[0]) != u_opcode.end())
-                {   
-                    if(tokens.size()>3 || tokens[1].substr(0, 1) != "x" || tokens[2].substr(0, 1) == "x"){
-                        fout<<"Error"<<endl;
-                    }
-                    else{
-                    tokens[1].erase(0, 1);
-                    int idest = stoi(tokens[1]);
-                    string dest = dec_to_bin(idest, 5);
-                    string imd;
-                    string upper_lim = "11111111111111111111";
-                    string lower_lim = "00000000000000000000";
-                    bool neg = false;
-                    bool error = false;
-                    set<char> valid_hex = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', '-'};
-                    set<char> valid_dig = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '-'};
-                    set<char> valid_bin = {'0', '1'};
-                    if (tokens[2][0] == '-')
+                {
+                    if (tokens.size() > 3 || tokens[1].substr(0, 1) != "x" || tokens[2].substr(0, 1) == "x")
                     {
-                        neg = true;
-                        tokens[2].erase(0, 1);
+                        fout << "Error" << endl;
                     }
-                    if (tokens[2].substr(0, 2) == "0x")
+                    else
                     {
-                        tokens[2].erase(0, 2);
-                        for (auto i : tokens[2])
-                            if (valid_hex.find(i) == valid_hex.end())
-                                error = true;
-                        int imm = hex_to_dec(tokens[2]);
-                        imd = dec_to_bin(hex_to_dec(tokens[2]), 20);
-                    }
-                    else if (tokens[2].substr(0, 2) == "0b")
-                    {
-                        tokens[2].erase(0, 2);
-                        while (tokens[2].size() < 12)
+                        tokens[1].erase(0, 1);
+                        int idest = stoi(tokens[1]);
+                        string dest = dec_to_bin(idest, 5);
+                        string imd;
+                        string upper_lim = "11111111111111111111";
+                        string lower_lim = "00000000000000000000";
+                        bool neg = false;
+                        bool error = false;
+                        set<char> valid_hex = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', '-'};
+                        set<char> valid_dig = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '-'};
+                        set<char> valid_bin = {'0', '1'};
+                        if (tokens[2][0] == '-')
                         {
-                            tokens[2] = "0" + tokens[2];
+                            neg = true;
+                            tokens[2].erase(0, 1);
                         }
-                        imd = tokens[2];
-                        for (auto i : imd)
-                            if (valid_bin.find(i) == valid_bin.end())
-                                error = true;
-                    }
-                    else
-                    {
-                        for (auto i : tokens[2])
-                            if (valid_dig.find(i) == valid_dig.end())
-                                error = true;
-                        int imm = stoi(tokens[2]);
-                        imd = dec_to_bin(imm, 20);
-                    }
-                    if ((imd > upper_lim || imd < lower_lim || imd.size() > 20 || neg) && !error)
-                        fout << "0x" << bin_to_hex(dec_to_bin(text_address, 1)) << " Immediate value out of bounds" << endl;
-                    else if (error)
-                        fout << "0x" << bin_to_hex(dec_to_bin(text_address, 1)) << " Wrong inputs" << endl;
-                    else
-                    {
-                        string code = imd + dest + u_opcode[tokens[0]];
-                        fout << "0x" << bin_to_hex(dec_to_bin(text_address, 1)) << " 0x" << bin_to_hex(code) << endl;
-                    }
+                        if (tokens[2].substr(0, 2) == "0x")
+                        {
+                            tokens[2].erase(0, 2);
+                            for (auto i : tokens[2])
+                                if (valid_hex.find(i) == valid_hex.end())
+                                    error = true;
+                            int imm = hex_to_dec(tokens[2]);
+                            imd = dec_to_bin(hex_to_dec(tokens[2]), 20);
+                        }
+                        else if (tokens[2].substr(0, 2) == "0b")
+                        {
+                            tokens[2].erase(0, 2);
+                            while (tokens[2].size() < 12)
+                            {
+                                tokens[2] = "0" + tokens[2];
+                            }
+                            imd = tokens[2];
+                            for (auto i : imd)
+                                if (valid_bin.find(i) == valid_bin.end())
+                                    error = true;
+                        }
+                        else
+                        {
+                            for (auto i : tokens[2])
+                                if (valid_dig.find(i) == valid_dig.end())
+                                    error = true;
+                            int imm = stoi(tokens[2]);
+                            imd = dec_to_bin(imm, 20);
+                        }
+                        if ((imd > upper_lim || imd < lower_lim || imd.size() > 20 || neg) && !error)
+                            fout << "0x" << bin_to_hex(dec_to_bin(text_address, 1)) << " Immediate value out of bounds" << endl;
+                        else if (error)
+                            fout << "0x" << bin_to_hex(dec_to_bin(text_address, 1)) << " Wrong inputs" << endl;
+                        else
+                        {
+                            string code = imd + dest + u_opcode[tokens[0]];
+                            fout << "0x" << bin_to_hex(dec_to_bin(text_address, 1)) << " 0x" << bin_to_hex(code) << endl;
+                        }
                     }
                 }
 
                 // UJ-format // jal
                 else if (tokens[0] == "jal")
-                {   
-                    if(tokens.size()>3 || tokens[1].substr(0, 1) != "x"){
-                        fout<<"Error"<<endl;
+                {
+                    if (tokens.size() > 3 || tokens[1].substr(0, 1) != "x")
+                    {
+                        fout << "Error" << endl;
                     }
-                    else{
-                    int imm = (mp[tokens[2]] - text_address);
-                    // fout<<imm<<" ";
-                    tokens[1].erase(0, 1);
-                    int dest = stoi(tokens[1]);
-                    string imm1 = dec_to_bin(imm, 21);
-                    string temp = imm1.substr(10, 10);
-                    string temp2 = imm1.substr(1, 8);
-                    // reverse(all(temp));
-                    // reverse(all(temp2));
-                    imm1 = imm1[0] + temp + imm1[9] + temp2;
-                    // reverse(all(imm1));
-                    string code = bin_to_hex(imm1 + dec_to_bin(dest, 5) + "1101111");
-                    fout << "0x" << bin_to_hex(dec_to_bin(text_address, 1)) << " 0x";
-                    fout << code << endl;
+                    else
+                    {
+                        int imm = (mp[tokens[2]] - text_address);
+                        // fout<<imm<<" ";
+                        tokens[1].erase(0, 1);
+                        int dest = stoi(tokens[1]);
+                        string imm1 = dec_to_bin(imm, 21);
+                        string temp = imm1.substr(10, 10);
+                        string temp2 = imm1.substr(1, 8);
+                        // reverse(all(temp));
+                        // reverse(all(temp2));
+                        imm1 = imm1[0] + temp + imm1[9] + temp2;
+                        // reverse(all(imm1));
+                        string code = bin_to_hex(imm1 + dec_to_bin(dest, 5) + "1101111");
+                        fout << "0x" << bin_to_hex(dec_to_bin(text_address, 1)) << " 0x";
+                        fout << code << endl;
                     }
                 }
                 // SB format
                 else if (sb_func3.find(tokens[0]) != sb_func3.end())
-                {   
-                    if(tokens.size()>4 || tokens[1].substr(0, 1) != "x" || tokens[2].substr(0, 1) != "x"){
-                        fout<<"Error"<<endl;
+                {
+                    if (tokens.size() > 4 || tokens[1].substr(0, 1) != "x" || tokens[2].substr(0, 1) != "x")
+                    {
+                        fout << "Error" << endl;
                     }
-                    else{
-                    tokens[1].erase(0, 1);
-                    tokens[2].erase(0, 1);
-                    int ir1 = stoi(tokens[1]);
-                    int ir2 = stoi(tokens[2]);
-                    string r1 = dec_to_bin(ir1, 5);
-                    string r2 = dec_to_bin(ir2, 5);
-                    int imm = (mp[tokens[3]] - text_address);
-                    string imm1 = dec_to_bin(imm, 13);
-                    string code = imm1[0] + imm1.substr(2, 6) + r2 + r1 + sb_func3[tokens[0]] + imm1.substr(8, 4) + imm1[1] + "1100011";
-                    code = bin_to_hex(code);
-                    fout << "0x" << bin_to_hex(dec_to_bin(text_address, 1)) << " 0x";
-                    fout << code << endl;
+                    else
+                    {
+                        tokens[1].erase(0, 1);
+                        tokens[2].erase(0, 1);
+                        int ir1 = stoi(tokens[1]);
+                        int ir2 = stoi(tokens[2]);
+                        string r1 = dec_to_bin(ir1, 5);
+                        string r2 = dec_to_bin(ir2, 5);
+                        int imm = (mp[tokens[3]] - text_address);
+                        string imm1 = dec_to_bin(imm, 13);
+                        string code = imm1[0] + imm1.substr(2, 6) + r2 + r1 + sb_func3[tokens[0]] + imm1.substr(8, 4) + imm1[1] + "1100011";
+                        code = bin_to_hex(code);
+                        fout << "0x" << bin_to_hex(dec_to_bin(text_address, 1)) << " 0x";
+                        fout << code << endl;
                     }
                 }
                 else
@@ -508,17 +516,20 @@ int main(int argc, char *argv[])
                                 data = "0" + data;
                             // cout << data << endl;
                         }
-                        if (error){
+                        if (error)
+                        {
                             // cout << "0x" << bin_to_hex(dec_to_bin(data_address, 8)) << " Wrong inputs" << endl;
                             datadata += "0x" + bin_to_hex(dec_to_bin(data_address, 8)) + " Wrong inputs\n";
                         }
-                        else{
+                        else
+                        {
                             // All the memory values will be printed in Hexadecimal
-                            int j=data_size[tokens[2]]-2;
-                            while(j>=0){
+                            int j = data_size[tokens[2]] - 2;
+                            while (j >= 0)
+                            {
                                 // cout<<"0x"<<bin_to_hex(dec_to_bin(data_address, 8))<<" "<<data.substr(j,2)<<endl;
-                                datadata += "0x"+bin_to_hex(dec_to_bin(data_address, 8))+" "+data.substr(j,2) + "\n";
-                                j-=2;
+                                datadata += "0x" + bin_to_hex(dec_to_bin(data_address, 8)) + " " + data.substr(j, 2) + "\n";
+                                j -= 2;
                                 data_address++;
                             }
                         }
@@ -541,19 +552,21 @@ int main(int argc, char *argv[])
                     data.pop_back();
                     asciiz_len = data.size();
                     // cout << data << " " << asciiz_len << endl;
-                    for(char c : data){
+                    for (char c : data)
+                    {
                         // cout << "0x" << bin_to_hex(dec_to_bin(data_address, 8)) << " " << bin_to_hex(dec_to_bin((int) c, 0)) << endl;
-                        datadata+="0x" + bin_to_hex(dec_to_bin(data_address, 8)) + " " + bin_to_hex(dec_to_bin((int) c, 0)) + "\n";
-                        data_address+=1;
+                        datadata += "0x" + bin_to_hex(dec_to_bin(data_address, 8)) + " " + bin_to_hex(dec_to_bin((int)c, 0)) + "\n";
+                        data_address += 1;
                     }
                     // cout << "0x" << bin_to_hex(dec_to_bin(data_address, 8)) << " " << "00" << endl;
-                    datadata+="0x" + bin_to_hex(dec_to_bin(data_address, 8)) + " " + "00"+ "\n";
-                    data_address+=1; // for terminating zero
+                    datadata += "0x" + bin_to_hex(dec_to_bin(data_address, 8)) + " " + "00" + "\n";
+                    data_address += 1; // for terminating zero
                 }
                 // data ends
             }
         }
-        fout<<"\n\n------------------------DATA--------------------------\n"<<datadata;
+        fout << "\n\n------------------------DATA--------------------------\n"
+             << datadata;
         fin.close();
         fout.close();
     }
