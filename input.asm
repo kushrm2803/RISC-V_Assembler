@@ -1,5 +1,4 @@
 beq x0 x0 do
-
 .data
 a : .word 0xDEADBEEF,14,0b11010111
 b : .byte 10,0x81,0b11111111
