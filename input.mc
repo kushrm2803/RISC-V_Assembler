@@ -20,6 +20,20 @@
 0x4C 0x1E5DA517
 0x50 Wrong inputs
 0x54 Wrong inputs
+Error
+Error
+Error
+Error
+Error
+Error
+Error
+Error
+Error
+Error
+Error
+Error
+Error
+Error
 
 
 ------------------------DATA--------------------------

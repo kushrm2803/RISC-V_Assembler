@@ -117,7 +117,13 @@ int main(int argc, char *argv[])
 
                 // R-type
                 if (r_func7.find(tokens[0]) != r_func7.end())
-                {
+                {   
+                    if(tokens.size()>4 || tokens[1].substr(0, 1) != "x"|| tokens[2].substr(0, 1) != "x" || tokens[3].substr(0, 1) != "x")
+                    {
+                        fout<<"Error"<<endl;
+                    }
+                    else
+                    {
                     tokens[1].erase(0, 1);
                     tokens[2].erase(0, 1);
                     tokens[3].erase(0, 1);
@@ -131,13 +137,20 @@ int main(int argc, char *argv[])
                     string code = r_func7[tokens[0]] + r2 + r1 + r_func3[tokens[0]] + dest + r_opcode[tokens[0]];
                     code = bin_to_hex(code);
                     fout << "0x" << bin_to_hex(dec_to_bin(text_address, 1)) << " 0x" << code << endl;
+                    }
+                    
                 }
 
                 // I-type
                 else if (i_func3.find(tokens[0]) != i_func3.end())
-                {
+                {   
                     if (tokens[0] == "lb" || tokens[0] == "lw" || tokens[0] == "ld" || tokens[0] == "lh")
                         offset_separate(tokens);
+                    if(tokens.size()>4 || tokens[1].substr(0, 1) != "x" || tokens[2].substr(0, 1) != "x" || tokens[3].substr(0, 1) == "x")
+                    {
+                        fout<<"Error"<<endl;
+                    }
+                    else{
                     tokens[1].erase(0, 1);
                     tokens[2].erase(0, 1);
                     // fout<<tokens[1]<<" "<<tokens[2]<<" "<<tokens[3]<<endl;
@@ -208,11 +221,18 @@ int main(int argc, char *argv[])
                         string code = imd + r1 + i_func3[tokens[0]] + dest + i_opcode[tokens[0]];
                         fout << "0x" << bin_to_hex(dec_to_bin(text_address, 0)) << " 0x" << bin_to_hex(code) << endl;
                     }
+                  }
                 }
                 // S-type
                 else if (s_func3.find(tokens[0]) != s_func3.end())
-                {
+                {   
                     offset_separate(tokens);
+
+                    if(tokens.size()>4 || tokens[1].substr(0, 1) != "x" || tokens[2].substr(0, 1) != "x" || tokens[3].substr(0, 1) == "x"){
+                        fout<<"Error"<<endl;
+                    }
+                    else{
+                    
                     tokens[1].erase(0, 1);
                     tokens[2].erase(0, 1);
 
@@ -299,11 +319,16 @@ int main(int argc, char *argv[])
                         string code = i1 + fr2 + fr1 + s_func3[tokens[0]] + i2 + s_opcode[tokens[0]];
                         fout << "0x" << bin_to_hex(dec_to_bin(text_address, 1)) << " 0x" << bin_to_hex(code) << endl;
                     }
+                    }
                 }
 
                 // U-type
                 else if (u_opcode.find(tokens[0]) != u_opcode.end())
-                {
+                {   
+                    if(tokens.size()>3 || tokens[1].substr(0, 1) != "x" || tokens[2].substr(0, 1) == "x"){
+                        fout<<"Error"<<endl;
+                    }
+                    else{
                     tokens[1].erase(0, 1);
                     int idest = stoi(tokens[1]);
                     string dest = dec_to_bin(idest, 5);
@@ -358,11 +383,16 @@ int main(int argc, char *argv[])
                         string code = imd + dest + u_opcode[tokens[0]];
                         fout << "0x" << bin_to_hex(dec_to_bin(text_address, 1)) << " 0x" << bin_to_hex(code) << endl;
                     }
+                    }
                 }
 
                 // UJ-format // jal
                 else if (tokens[0] == "jal")
-                {
+                {   
+                    if(tokens.size()>3 || tokens[1].substr(0, 1) != "x"){
+                        fout<<"Error"<<endl;
+                    }
+                    else{
                     int imm = (mp[tokens[2]] - text_address);
                     // fout<<imm<<" ";
                     tokens[1].erase(0, 1);
@@ -377,10 +407,15 @@ int main(int argc, char *argv[])
                     string code = bin_to_hex(imm1 + dec_to_bin(dest, 5) + "1101111");
                     fout << "0x" << bin_to_hex(dec_to_bin(text_address, 1)) << " 0x";
                     fout << code << endl;
+                    }
                 }
                 // SB format
                 else if (sb_func3.find(tokens[0]) != sb_func3.end())
-                {
+                {   
+                    if(tokens.size()>4 || tokens[1].substr(0, 1) != "x" || tokens[2].substr(0, 1) != "x"){
+                        fout<<"Error"<<endl;
+                    }
+                    else{
                     tokens[1].erase(0, 1);
                     tokens[2].erase(0, 1);
                     int ir1 = stoi(tokens[1]);
@@ -393,6 +428,7 @@ int main(int argc, char *argv[])
                     code = bin_to_hex(code);
                     fout << "0x" << bin_to_hex(dec_to_bin(text_address, 1)) << " 0x";
                     fout << code << endl;
+                    }
                 }
                 else
                 {
