@@ -130,7 +130,6 @@ int main(int argc, char *argv[])
                         int idest = stoi(tokens[1]);
                         int ir1 = stoi(tokens[2]);
                         int ir2 = stoi(tokens[3]);
-                        // cout<<"h";
                         string dest = dec_to_bin(idest, 5);
                         string r1 = dec_to_bin(ir1, 5);
                         string r2 = dec_to_bin(ir2, 5);
@@ -153,10 +152,8 @@ int main(int argc, char *argv[])
                     {
                         tokens[1].erase(0, 1);
                         tokens[2].erase(0, 1);
-                        // fout<<tokens[1]<<" "<<tokens[2]<<" "<<tokens[3]<<endl;
                         int idest = stoi(tokens[1]);
                         int ir1 = stoi(tokens[2]);
-                        // fout<<"Here1";
                         string dest = dec_to_bin(idest, 5);
                         string r1 = dec_to_bin(ir1, 5);
                         int k = 0;
@@ -173,13 +170,12 @@ int main(int argc, char *argv[])
                         if (tokens[3].substr(k, 2) == "0x")
                         {
                             tokens[3].erase(0, 2 + k);
-                            error = valid_check(tokens[3],16);
+                            error = valid_check(tokens[3], 16);
                             int imm = hex_to_dec(tokens[3]);
                             if (neg)
                                 imd = dec_to_bin(pow(2, 12) - abs(imm), 12);
                             else
                                 imd = dec_to_bin(hex_to_dec(tokens[3]), 12);
-                            // fout<<"Here2";
                         }
                         else if (tokens[3].substr(k, 2) == "0b")
                         {
@@ -189,20 +185,17 @@ int main(int argc, char *argv[])
                                 tokens[3] = "0" + tokens[3];
                             }
                             imd = tokens[3];
-                            error = valid_check(imd,2);
+                            error = valid_check(imd, 2);
                         }
                         else
                         {
-                            error = valid_check(tokens[3],10);
+                            error = valid_check(tokens[3], 10);
                             int imm = stoi(tokens[3]);
-                            // fout<<pow(2,12)-abs(imm)<<endl;
                             if (neg)
                                 imd = dec_to_bin(pow(2, 12) - abs(imm), 12);
                             else
                                 imd = dec_to_bin(imm, 12);
-                            // fout<<imd<<endl;
                         }
-                        // fout << imd << endl;
                         if (((imd > upper_lim && !neg) || (imd < lower_lim && neg) || imd.size() > 12) && !error)
                             fout << "0x" << bin_to_hex(dec_to_bin(text_address, 1)) << " Immediate value out of bounds" << endl;
                         else if (error)
@@ -229,8 +222,6 @@ int main(int argc, char *argv[])
                         tokens[1].erase(0, 1);
                         tokens[2].erase(0, 1);
 
-                        // fout<<tokens[1]<<" "<<tokens[2]<<" "<<tokens[3]<<endl;
-
                         int rs2 = stoi(tokens[1]);
                         int rs1 = stoi(tokens[2]);
 
@@ -244,7 +235,6 @@ int main(int argc, char *argv[])
                         string upper_lim = "011111111111";
                         string lower_lim = "100000000000";
 
-
                         if (tokens[3][k] == '-')
                         {
                             neg = true;
@@ -254,14 +244,13 @@ int main(int argc, char *argv[])
                         {
                             tokens[3].erase(0, 2 + k);
 
-                            error = valid_check(tokens[3],16);
+                            error = valid_check(tokens[3], 16);
 
                             int imm = hex_to_dec(tokens[3]);
                             if (neg)
                                 imd = dec_to_bin(pow(2, 12) - abs(imm), 12);
                             else
                                 imd = dec_to_bin(hex_to_dec(tokens[3]), 12);
-                            // fout<<"Here2";
                         }
                         else if (tokens[3].substr(k, 2) == "0b")
                         {
@@ -272,26 +261,20 @@ int main(int argc, char *argv[])
                             }
                             imd = tokens[3];
 
-                            error = valid_check(imd,2);
+                            error = valid_check(imd, 2);
                         }
                         else
                         {
-                            error = valid_check(tokens[3],10);
+                            error = valid_check(tokens[3], 10);
                             int imm = stoi(tokens[3]);
-                            // fout<<pow(2,12)-abs(imm)<<endl;
                             if (neg)
                                 imd = dec_to_bin(pow(2, 12) - abs(imm), 12);
                             else
                                 imd = dec_to_bin(imm, 12);
-                            // fout<<imd<<endl;
                         }
-                        // fout << imd << endl;
 
                         string i1 = imd.substr(0, 7);
                         string i2 = imd.substr(7, 5);
-
-                        // fout<< i1 << endl;
-                        // fout<< i2 << endl;
 
                         if ((imd > upper_lim && !neg) || (imd < lower_lim && neg) || imd.size() > 12)
                             fout << "0x" << bin_to_hex(dec_to_bin(text_address, 1)) << " Immediate value out of bounds" << endl;
@@ -330,7 +313,7 @@ int main(int argc, char *argv[])
                         if (tokens[2].substr(0, 2) == "0x")
                         {
                             tokens[2].erase(0, 2);
-                            error = valid_check(tokens[2],16);
+                            error = valid_check(tokens[2], 16);
                             int imm = hex_to_dec(tokens[2]);
                             imd = dec_to_bin(hex_to_dec(tokens[2]), 20);
                         }
@@ -342,11 +325,11 @@ int main(int argc, char *argv[])
                                 tokens[2] = "0" + tokens[2];
                             }
                             imd = tokens[2];
-                            error = valid_check(imd,2);
+                            error = valid_check(imd, 2);
                         }
                         else
                         {
-                            error = valid_check(tokens[2],10);
+                            error = valid_check(tokens[2], 10);
                             int imm = stoi(tokens[2]);
                             imd = dec_to_bin(imm, 20);
                         }
@@ -372,16 +355,12 @@ int main(int argc, char *argv[])
                     else
                     {
                         int imm = (mp[tokens[2]] - text_address);
-                        // fout<<imm<<" ";
                         tokens[1].erase(0, 1);
                         int dest = stoi(tokens[1]);
                         string imm1 = dec_to_bin(imm, 21);
                         string temp = imm1.substr(10, 10);
                         string temp2 = imm1.substr(1, 8);
-                        // reverse(all(temp));
-                        // reverse(all(temp2));
                         imm1 = imm1[0] + temp + imm1[9] + temp2;
-                        // reverse(all(imm1));
                         string code = bin_to_hex(imm1 + dec_to_bin(dest, 5) + "1101111");
                         fout << "0x" << bin_to_hex(dec_to_bin(text_address, 1)) << " 0x";
                         fout << code << endl;
@@ -429,7 +408,6 @@ int main(int argc, char *argv[])
                 else if (tokens[0] == ".data")
                     continue;
                 // data begins
-                // cout<<tokens[0]<<" "<<tokens[1]<<" "<<tokens[2]<<" "<<tokens[4]<<endl;
                 if (tokens[2] == ".word" || tokens[2] == ".half" || tokens[2] == ".dword" || tokens[2] == ".byte")
                 {
                     int i = 3;
@@ -457,7 +435,6 @@ int main(int argc, char *argv[])
                                 error = true;
                             while (data.size() < data_size[tokens[2]])
                                 data = "0" + data;
-                            // cout << data << endl;
                         }
                         else if (tokens[i].substr(k, 2) == "0b")
                         {
@@ -469,7 +446,6 @@ int main(int argc, char *argv[])
                                 error = true;
                             while (data.size() < data_size[tokens[2]])
                                 data = "0" + data;
-                            // cout << data << endl;
                         }
                         else
                         {
@@ -479,11 +455,9 @@ int main(int argc, char *argv[])
                                 error = true;
                             while (data.size() < data_size[tokens[2]])
                                 data = "0" + data;
-                            // cout << data << endl;
                         }
                         if (error)
                         {
-                            // cout << "0x" << bin_to_hex(dec_to_bin(data_address, 8)) << " Wrong inputs" << endl;
                             datadata += "0x" + bin_to_hex(dec_to_bin(data_address, 8)) + " Wrong inputs\n";
                         }
                         else
@@ -492,7 +466,6 @@ int main(int argc, char *argv[])
                             int j = data_size[tokens[2]] - 2;
                             while (j >= 0)
                             {
-                                // cout<<"0x"<<bin_to_hex(dec_to_bin(data_address, 8))<<" "<<data.substr(j,2)<<endl;
                                 datadata += "0x" + bin_to_hex(dec_to_bin(data_address, 8)) + " " + data.substr(j, 2) + "\n";
                                 j -= 2;
                                 data_address++;
@@ -516,14 +489,11 @@ int main(int argc, char *argv[])
                     data.pop_back();
                     data.pop_back();
                     asciiz_len = data.size();
-                    // cout << data << " " << asciiz_len << endl;
                     for (char c : data)
                     {
-                        // cout << "0x" << bin_to_hex(dec_to_bin(data_address, 8)) << " " << bin_to_hex(dec_to_bin((int) c, 0)) << endl;
                         datadata += "0x" + bin_to_hex(dec_to_bin(data_address, 8)) + " " + bin_to_hex(dec_to_bin((int)c, 0)) + "\n";
                         data_address += 1;
                     }
-                    // cout << "0x" << bin_to_hex(dec_to_bin(data_address, 8)) << " " << "00" << endl;
                     datadata += "0x" + bin_to_hex(dec_to_bin(data_address, 8)) + " " + "00" + "\n";
                     data_address += 1; // for terminating zero
                 }
