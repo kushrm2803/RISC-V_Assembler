@@ -4,7 +4,7 @@
 #include <fstream>
 #include <map>
 #include <algorithm>
-#include "opcodes.cpp"
+#include "codes.cpp"
 #include "utilities.cpp"
 using namespace std;
 #define all(a) a.begin(), a.end() //
@@ -52,7 +52,7 @@ vector<string> instructionToToken(string instruct)
 
 int main(int argc, char *argv[])
 {
-    defineAllOpcodes();
+    defineAllCodes();
     mode = 0; // intial mode is text
     text_address = 0;
     // argv[0] is ./a.exe
@@ -165,9 +165,6 @@ int main(int argc, char *argv[])
                         string imd;
                         string upper_lim = "011111111111";
                         string lower_lim = "100000000000";
-                        set<char> valid_hex = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', '-'};
-                        set<char> valid_dig = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '-'};
-                        set<char> valid_bin = {'0', '1'};
                         if (tokens[3][k] == '-')
                         {
                             neg = true;
@@ -176,9 +173,7 @@ int main(int argc, char *argv[])
                         if (tokens[3].substr(k, 2) == "0x")
                         {
                             tokens[3].erase(0, 2 + k);
-                            for (auto i : tokens[3])
-                                if (valid_hex.find(i) == valid_hex.end())
-                                    error = true;
+                            error = valid_check(tokens[3],16);
                             int imm = hex_to_dec(tokens[3]);
                             if (neg)
                                 imd = dec_to_bin(pow(2, 12) - abs(imm), 12);
@@ -194,15 +189,11 @@ int main(int argc, char *argv[])
                                 tokens[3] = "0" + tokens[3];
                             }
                             imd = tokens[3];
-                            for (auto i : imd)
-                                if (valid_bin.find(i) == valid_bin.end())
-                                    error = true;
+                            error = valid_check(imd,2);
                         }
                         else
                         {
-                            for (auto i : tokens[3])
-                                if (valid_dig.find(i) == valid_dig.end())
-                                    error = true;
+                            error = valid_check(tokens[3],10);
                             int imm = stoi(tokens[3]);
                             // fout<<pow(2,12)-abs(imm)<<endl;
                             if (neg)
@@ -253,9 +244,6 @@ int main(int argc, char *argv[])
                         string upper_lim = "011111111111";
                         string lower_lim = "100000000000";
 
-                        set<char> valid_hex = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', '-'};
-                        set<char> valid_dig = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '-'};
-                        set<char> valid_bin = {'0', '1'};
 
                         if (tokens[3][k] == '-')
                         {
@@ -266,9 +254,7 @@ int main(int argc, char *argv[])
                         {
                             tokens[3].erase(0, 2 + k);
 
-                            for (auto i : tokens[3])
-                                if (valid_hex.find(i) == valid_hex.end())
-                                    error = true;
+                            error = valid_check(tokens[3],16);
 
                             int imm = hex_to_dec(tokens[3]);
                             if (neg)
@@ -286,16 +272,11 @@ int main(int argc, char *argv[])
                             }
                             imd = tokens[3];
 
-                            for (auto i : imd)
-                                if (valid_bin.find(i) == valid_bin.end())
-                                    error = true;
+                            error = valid_check(imd,2);
                         }
                         else
                         {
-                            for (auto i : tokens[3])
-                                if (valid_dig.find(i) == valid_dig.end())
-                                    error = true;
-
+                            error = valid_check(tokens[3],10);
                             int imm = stoi(tokens[3]);
                             // fout<<pow(2,12)-abs(imm)<<endl;
                             if (neg)
@@ -341,9 +322,6 @@ int main(int argc, char *argv[])
                         string lower_lim = "00000000000000000000";
                         bool neg = false;
                         bool error = false;
-                        set<char> valid_hex = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', '-'};
-                        set<char> valid_dig = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '-'};
-                        set<char> valid_bin = {'0', '1'};
                         if (tokens[2][0] == '-')
                         {
                             neg = true;
@@ -352,9 +330,7 @@ int main(int argc, char *argv[])
                         if (tokens[2].substr(0, 2) == "0x")
                         {
                             tokens[2].erase(0, 2);
-                            for (auto i : tokens[2])
-                                if (valid_hex.find(i) == valid_hex.end())
-                                    error = true;
+                            error = valid_check(tokens[2],16);
                             int imm = hex_to_dec(tokens[2]);
                             imd = dec_to_bin(hex_to_dec(tokens[2]), 20);
                         }
@@ -366,15 +342,11 @@ int main(int argc, char *argv[])
                                 tokens[2] = "0" + tokens[2];
                             }
                             imd = tokens[2];
-                            for (auto i : imd)
-                                if (valid_bin.find(i) == valid_bin.end())
-                                    error = true;
+                            error = valid_check(imd,2);
                         }
                         else
                         {
-                            for (auto i : tokens[2])
-                                if (valid_dig.find(i) == valid_dig.end())
-                                    error = true;
+                            error = valid_check(tokens[2],10);
                             int imm = stoi(tokens[2]);
                             imd = dec_to_bin(imm, 20);
                         }
@@ -463,9 +435,7 @@ int main(int argc, char *argv[])
                     int i = 3;
                     while (tokens[i] != "\0")
                     {
-                        set<char> valid_hex = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', '-'};
-                        set<char> valid_dig = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '-'};
-                        set<char> valid_bin = {'0', '1'};
+
                         int k = 0;
                         bool neg = false;
                         bool error = false;
@@ -480,9 +450,8 @@ int main(int argc, char *argv[])
                         if (tokens[i].substr(k, 2) == "0x")
                         {
                             tokens[i].erase(0, 2 + k);
-                            for (auto itr : tokens[i])
-                                if (valid_hex.find(itr) == valid_hex.end())
-                                    error = true;
+
+                            error = valid_check(tokens[i], 16);
                             data = tokens[i];
                             if (data.size() > data_size[tokens[2]])
                                 error = true;
@@ -493,9 +462,7 @@ int main(int argc, char *argv[])
                         else if (tokens[i].substr(k, 2) == "0b")
                         {
                             tokens[i].erase(0, 2 + k);
-                            for (auto itr : data)
-                                if (valid_bin.find(itr) == valid_bin.end())
-                                    error = true;
+                            error = valid_check(tokens[i], 2);
                             data = tokens[i];
                             data = bin_to_hex(data);
                             if (data.size() > data_size[tokens[2]])
@@ -506,9 +473,7 @@ int main(int argc, char *argv[])
                         }
                         else
                         {
-                            for (auto itr : tokens[i])
-                                if (valid_dig.find(itr) == valid_dig.end())
-                                    error = true;
+                            error = valid_check(tokens[i], 10);
                             data = dec_to_hex(stoi(tokens[i]));
                             if (data.size() > data_size[tokens[2]])
                                 error = true;
