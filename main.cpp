@@ -51,7 +51,7 @@ vector<string> instructionToToken(string instruct)
                 j++;
                 continue;
             }
-            else if(mode == 0 && token.size()==2 && s_opcode.find(token[0])!=s_opcode.end()){
+            else if(mode == 0 && token.size()==2 && (s_opcode.find(token[0])!=s_opcode.end() || (token[0] == "lb" || token[0] == "lw" || token[0] == "ld" || token[0] == "lh"))){
                 word = "";
                 while(j<len){
                     if(instruct[j]==' '){j++;continue;}
