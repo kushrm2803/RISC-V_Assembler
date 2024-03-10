@@ -241,7 +241,7 @@ int main(int argc, char *argv[])
                 // S-type instructions
                 else if (s_func3.find(tokens[0]) != s_func3.end())
                 {
-                    cout<<tokens[2]<<endl;
+                    // cout<<tokens[2]<<endl;
                     offset_separate(tokens); // Separate offset from base register
                     // Instruction check according to pattern of S instruction
                     if (tokens.size() > 4 || tokens[1].substr(0, 1) != "x" || tokens[2].substr(0, 1) != "x" || tokens[3].substr(0, 1) == "x")

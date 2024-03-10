@@ -38,10 +38,10 @@ void defineAllCodes()
     r_func7["sra"] = "0100000";
     r_func7["srl"] = "0000000";
     r_func7["sub"] = "0100000";
-    r_func7["xor"] = "";
-    r_func7["mul"] = "";
-    r_func7["div"] = "";
-    r_func7["rem"] = "";
+    r_func7["xor"] = "0000000";
+    r_func7["mul"] = "0000001";
+    r_func7["div"] = "0000001";
+    r_func7["rem"] = "0000001";
 
     r_func3["add"] = "000";
     r_func3["and"] = "111";
@@ -51,10 +51,10 @@ void defineAllCodes()
     r_func3["sra"] = "101";
     r_func3["srl"] = "101";
     r_func3["sub"] = "000";
-    r_func3["xor"] = "";
-    r_func3["mul"] = "";
-    r_func3["div"] = "";
-    r_func3["rem"] = "";
+    r_func3["xor"] = "100";
+    r_func3["mul"] = "000";
+    r_func3["div"] = "100";
+    r_func3["rem"] = "110";
 
     i_opcode["addi"] = "0010011";
     i_opcode["andi"] = "0010011";
