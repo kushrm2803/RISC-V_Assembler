@@ -51,6 +51,15 @@ vector<string> instructionToToken(string instruct)
                 j++;
                 continue;
             }
+            else if(mode == 0 && token.size()==2 && s_opcode.find(token[0])!=s_opcode.end()){
+                word = "";
+                while(j<len){
+                    if(instruct[j]==' '){j++;continue;}
+                    word += instruct[j];
+                    j++;
+                }
+                break;
+            }
             word += instruct[j];
             j++;
         }
@@ -232,6 +241,7 @@ int main(int argc, char *argv[])
                 // S-type instructions
                 else if (s_func3.find(tokens[0]) != s_func3.end())
                 {
+                    cout<<tokens[2]<<endl;
                     offset_separate(tokens); // Separate offset from base register
                     // Instruction check according to pattern of S instruction
                     if (tokens.size() > 4 || tokens[1].substr(0, 1) != "x" || tokens[2].substr(0, 1) != "x" || tokens[3].substr(0, 1) == "x")
@@ -241,7 +251,7 @@ int main(int argc, char *argv[])
                     else
                     {
                         // Extract register and offset values
-                        tokens[1].erase(0, 1);
+                        tokens[1].erase(0, 1); // register
                         tokens[2].erase(0, 1);
                         int rs2 = stoi(tokens[1]);
                         int rs1 = stoi(tokens[2]);
