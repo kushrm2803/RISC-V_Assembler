@@ -430,7 +430,7 @@ int main(int argc, char *argv[])
                 {
                     // Loop through each data value
                     int i = 3;
-                    while (tokens[i] != "\0")
+                    while (i<tokens.size())
                     {
 
                         int k = 0;
