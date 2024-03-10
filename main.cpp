@@ -34,13 +34,22 @@ vector<string> instructionToToken(string instruct)
                 flag = true;
                 break;
             }
-            if (instruct[j] == ':' && mode == 0)
+            else if (instruct[j] == ':' && mode == 0)
             {
                 // Handle labeling in text-mode
                 mp[word] = text_address;
                 word.erase();
                 j++;
                 break;
+            }
+            else if(instruct[j] == ':' && mode == 1){
+                if(word.length()>0){
+                    token.push_back(word); 
+                    word = "";
+                }
+                token.push_back(":");
+                j++;
+                continue;
             }
             word += instruct[j];
             j++;
