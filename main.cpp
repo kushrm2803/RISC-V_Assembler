@@ -56,6 +56,7 @@ vector<string> instructionToToken(string instruct)
                 while(j<len){
                     if(instruct[j]==' '){j++;continue;}
                     word += instruct[j];
+                    if(instruct[j] == ')') {j++;break;}
                     j++;
                 }
                 break;
