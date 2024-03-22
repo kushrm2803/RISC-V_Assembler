@@ -138,3 +138,8 @@ bool valid_check(string str, int base)
     }
     return false;
 }
+
+bool actualBranch(string cur_pc,string next_pc){
+    if(hex_to_dec(next_pc)-hex_to_dec(cur_pc)!=4)return false;
+    else return true;
+}

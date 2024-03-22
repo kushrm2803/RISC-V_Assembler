@@ -90,3 +90,8 @@ string dec_to_hex(int num)
     reverse(ans.begin(), ans.end());
     return ans;
 }
+
+bool actualBranch(string cur_pc,string prev_pc){
+    if(hex_to_dec(cur_pc)-hex_to_dec(prev_pc)!=4)return true;
+    else return false;
+}
