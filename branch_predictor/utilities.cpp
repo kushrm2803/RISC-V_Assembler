@@ -95,3 +95,44 @@ bool actualBranch(string cur_pc,string prev_pc){
     if(hex_to_dec(cur_pc)-hex_to_dec(prev_pc)!=4)return true;
     else return false;
 }
+
+int oneBitBranchPredictor(map<string,int> &oneBitBuffer,map<string,int> &history_table,vector<string>&tokens){
+    // 0=>not taken 1=> taken
+    int prev_state=oneBitBuffer[tokens[0]];
+    if(history_table[tokens[0]]==oneBitBuffer[tokens[0]]){
+        cout<<"State of "<<tokens[0]<<" changed from "<<oneBitBuffer[tokens[0]]<<" to "<<history_table[tokens[0]]<<endl;
+        return 1;
+    }
+    else{
+        cout<<"State of "<<tokens[0]<<" changed from "<<oneBitBuffer[tokens[0]]<<" to "<<history_table[tokens[0]]<<endl;
+        oneBitBuffer[tokens[0]]=history_table[tokens[0]];
+        return 0;
+    }
+}
+
+int twoBitBranchPredictor(map<string,int> &twoBitBuffer,map<string,int> &history_table,vector<string>&tokens){
+    // 0=>strongly not taken 1=>not taken 2=>taken 3=>strongly taken
+    int prev_state=twoBitBuffer[tokens[0]];
+    if(twoBitBuffer[tokens[0]]==0){
+        if(history_table[tokens[0]])twoBitBuffer[tokens[0]]=1;
+        cout<<"State of "<<tokens[0]<<" changed from "<<prev_state<<" to "<<twoBitBuffer[tokens[0]]<<endl;
+    }
+    else if(twoBitBuffer[tokens[0]]==1){
+        if(history_table[tokens[0]])twoBitBuffer[tokens[0]]=2;
+        else twoBitBuffer[tokens[0]]=0;
+        cout<<"State of "<<tokens[0]<<" changed from "<<prev_state<<" to "<<twoBitBuffer[tokens[0]]<<endl;
+    }
+    else if(twoBitBuffer[tokens[0]]==2){
+        if(history_table[tokens[0]])twoBitBuffer[tokens[0]]=3;
+        else twoBitBuffer[tokens[0]]=1;
+        cout<<"State of "<<tokens[0]<<" changed from "<<prev_state<<" to "<<twoBitBuffer[tokens[0]]<<endl;
+    }
+    else{
+        if(!history_table[tokens[0]]){
+            twoBitBuffer[tokens[0]]=2;
+            cout<<"State of "<<tokens[0]<<" changed from "<<prev_state<<" to "<<twoBitBuffer[tokens[0]]<<endl;
+        }
+    }
+    if((prev_state==twoBitBuffer[tokens[0]]) || (prev_state==1 && twoBitBuffer[tokens[0]]==0) ||(prev_state==2 && twoBitBuffer[tokens[0]]==3))return 1;
+    else return 0;
+}
