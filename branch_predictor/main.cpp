@@ -59,7 +59,7 @@ int main(int argc, char *argv[])
                 vector<string> tokens = instructionToToken(instruct);
                 if (tokens.empty())
                     continue;
-                if ((tokens[2][0] == 'b' || tokens[2][0] == 'j') && tokens[2] != "jalr")
+                if (tokens[2][0] == 'b')
                 {
                     if (prev_pc.size() != 0)
                         if (actualBranch(prev_pc, tokens[0]))
@@ -71,6 +71,7 @@ int main(int argc, char *argv[])
                         correctPrediction++;
                     else
                         wrongPrediction++;
+                    if(twoBitBuffer.find(tokens[0])==twoBitBuffer.end())twoBitBuffer[tokens[0]]=1; //two bit branch predictor should start from not taken
                     cout << "Branch Target Buffer of 2-bit:" << endl;
                     if (twoBitBranchPredictor(twoBitBuffer, history_table, tokens))
                         correctPrediction1++;
