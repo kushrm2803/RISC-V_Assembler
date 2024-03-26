@@ -101,6 +101,20 @@ bool actualBranch(string cur_pc,string prev_pc){
     else return false;
 }
 
+float Accuracy_cal(int a, int b)
+{
+    if (a + b == 0)
+    {
+        // Handling division by zero
+        return 0.0;
+    }
+    else
+    {
+        float acc = (double)a / (double)(a + b);
+        return acc * 100;
+    }
+}
+
 int oneBitBranchPredictor(map<string,int> &oneBitBuffer,map<string,int> &history_table,vector<string>&tokens){
     // 0=>not taken 1=> taken
     int prev_state=oneBitBuffer[tokens[0]];
