@@ -65,7 +65,7 @@ vector<string> instructionToToken(string &instruction)
 int hex_to_dec(string hex)
 {
     map<char, int> hex_dict = {
-        {'0', 0}, {'1', 1}, {'2', 2}, {'3', 3}, {'4', 4}, {'5', 5}, {'6', 6}, {'7', 7}, {'8', 8}, {'9', 9}, {'A', 10}, {'B', 11}, {'C', 12}, {'D', 13}, {'E', 14}, {'F', 15}};
+        {'0', 0}, {'1', 1}, {'2', 2}, {'3', 3}, {'4', 4}, {'5', 5}, {'6', 6}, {'7', 7}, {'8', 8}, {'9', 9}, {'a', 10}, {'b', 11}, {'c', 12}, {'d', 13}, {'e', 14}, {'f', 15}};
     int num = 0;
     int j = 1;
     for (int i = hex.size() - 1; i >= 0; i--)
@@ -81,7 +81,7 @@ string dec_to_hex(int num)
 {
     string ans = "";
     map<int, char> hex_dict = {
-        {0, '0'}, {1, '1'}, {2, '2'}, {3, '3'}, {4, '4'}, {5, '5'}, {6, '6'}, {7, '7'}, {8, '8'}, {9, '9'}, {10, 'A'}, {11, 'B'}, {12, 'C'}, {13, 'D'}, {14, 'E'}, {15, 'F'}};
+        {0, '0'}, {1, '1'}, {2, '2'}, {3, '3'}, {4, '4'}, {5, '5'}, {6, '6'}, {7, '7'}, {8, '8'}, {9, '9'}, {10, 'a'}, {11, 'b'}, {12, 'b'}, {13, 'd'}, {14, 'e'}, {15, 'f'}};
     while (num)
     {
         ans += hex_dict[num % 16];
@@ -92,6 +92,11 @@ string dec_to_hex(int num)
 }
 
 bool actualBranch(string cur_pc,string prev_pc){
+    // cout<<cur_pc<<" "<<prev_pc<<endl;
+    cur_pc.erase(0,2);
+    prev_pc.erase(0,2);
+    // cout<<cur_pc<<" "<<prev_pc<<endl;
+    // cout<<hex_to_dec(cur_pc)<<" "<<hex_to_dec(prev_pc)<<endl;
     if(hex_to_dec(cur_pc)-hex_to_dec(prev_pc)!=4)return true;
     else return false;
 }
@@ -100,11 +105,11 @@ int oneBitBranchPredictor(map<string,int> &oneBitBuffer,map<string,int> &history
     // 0=>not taken 1=> taken
     int prev_state=oneBitBuffer[tokens[0]];
     if(history_table[tokens[0]]==oneBitBuffer[tokens[0]]){
-        cout<<"State of "<<tokens[0]<<" changed from "<<oneBitBuffer[tokens[0]]<<" to "<<history_table[tokens[0]]<<endl;
+        // cout<<"State of "<<tokens[0]<<" changed from "<<oneBitBuffer[tokens[0]]<<" to "<<history_table[tokens[0]]<<endl;
         return 1;
     }
     else{
-        cout<<"State of "<<tokens[0]<<" changed from "<<oneBitBuffer[tokens[0]]<<" to "<<history_table[tokens[0]]<<endl;
+        // cout<<"State of "<<tokens[0]<<" changed from "<<oneBitBuffer[tokens[0]]<<" to "<<history_table[tokens[0]]<<endl;
         oneBitBuffer[tokens[0]]=history_table[tokens[0]];
         return 0;
     }
@@ -115,22 +120,22 @@ int twoBitBranchPredictor(map<string,int> &twoBitBuffer,map<string,int> &history
     int prev_state=twoBitBuffer[tokens[0]];
     if(twoBitBuffer[tokens[0]]==0){
         if(history_table[tokens[0]])twoBitBuffer[tokens[0]]=1;
-        cout<<"State of "<<tokens[0]<<" changed from "<<prev_state<<" to "<<twoBitBuffer[tokens[0]]<<endl;
+        // cout<<"State of "<<tokens[0]<<" changed from "<<prev_state<<" to "<<twoBitBuffer[tokens[0]]<<endl;
     }
     else if(twoBitBuffer[tokens[0]]==1){
         if(history_table[tokens[0]])twoBitBuffer[tokens[0]]=2;
         else twoBitBuffer[tokens[0]]=0;
-        cout<<"State of "<<tokens[0]<<" changed from "<<prev_state<<" to "<<twoBitBuffer[tokens[0]]<<endl;
+        // cout<<"State of "<<tokens[0]<<" changed from "<<prev_state<<" to "<<twoBitBuffer[tokens[0]]<<endl;
     }
     else if(twoBitBuffer[tokens[0]]==2){
         if(history_table[tokens[0]])twoBitBuffer[tokens[0]]=3;
         else twoBitBuffer[tokens[0]]=1;
-        cout<<"State of "<<tokens[0]<<" changed from "<<prev_state<<" to "<<twoBitBuffer[tokens[0]]<<endl;
+        // cout<<"State of "<<tokens[0]<<" changed from "<<prev_state<<" to "<<twoBitBuffer[tokens[0]]<<endl;
     }
     else{
         if(!history_table[tokens[0]]){
             twoBitBuffer[tokens[0]]=2;
-            cout<<"State of "<<tokens[0]<<" changed from "<<prev_state<<" to "<<twoBitBuffer[tokens[0]]<<endl;
+            // cout<<"State of "<<tokens[0]<<" changed from "<<prev_state<<" to "<<twoBitBuffer[tokens[0]]<<endl;
         }
     }
     if((prev_state==twoBitBuffer[tokens[0]]) || (prev_state==1 && twoBitBuffer[tokens[0]]==0) ||(prev_state==2 && twoBitBuffer[tokens[0]]==3))return 1;
