@@ -115,43 +115,47 @@ float Accuracy_cal(int a, int b)
     }
 }
 
-int oneBitBranchPredictor(map<string,int> &oneBitBuffer,map<string,int> &history_table,vector<string>&tokens){
-    // 0=>not taken 1=> taken
-    int prev_state=oneBitBuffer[tokens[0]];
-    if(history_table[tokens[0]]==oneBitBuffer[tokens[0]]){
-        // cout<<"State of "<<tokens[0]<<" changed from "<<oneBitBuffer[tokens[0]]<<" to "<<history_table[tokens[0]]<<endl;
+int oneBitBranchPredictor(map<string, int> &oneBitBuffer, map<string, string> &history_table, string &branch_pc) {
+    // 0 => not taken, 1 => taken
+    int prev_state = oneBitBuffer[branch_pc];
+    // cout<<"history_table of "<<branch_pc<<" is "<<history_table[branch_pc]<<endl;
+    int history_state = history_table[branch_pc].back() - '0';
+    if (history_state == oneBitBuffer[branch_pc]) {
+        // cout << "State of " << branch_pc << " changed from " << oneBitBuffer[branch_pc] << " to " << history_state << endl;
         return 1;
-    }
-    else{
-        // cout<<"State of "<<tokens[0]<<" changed from "<<oneBitBuffer[tokens[0]]<<" to "<<history_table[tokens[0]]<<endl;
-        oneBitBuffer[tokens[0]]=history_table[tokens[0]];
+    } else {
+        // cout << "State of " << branch_pc << " changed from " << oneBitBuffer[branch_pc] << " to " << history_state << endl;
+        oneBitBuffer[branch_pc] = history_state;
         return 0;
     }
 }
 
-int twoBitBranchPredictor(map<string,int> &twoBitBuffer,map<string,int> &history_table,vector<string>&tokens){
+
+int twoBitBranchPredictor(map<string,int> &twoBitBuffer,map<string,string> &history_table,string&branch_pc){
     // 0=>strongly not taken 1=>not taken 2=>taken 3=>strongly taken
-    int prev_state=twoBitBuffer[tokens[0]];
-    if(twoBitBuffer[tokens[0]]==0){
-        if(history_table[tokens[0]])twoBitBuffer[tokens[0]]=1;
-        // cout<<"State of "<<tokens[0]<<" changed from "<<prev_state<<" to "<<twoBitBuffer[tokens[0]]<<endl;
+    int prev_state=twoBitBuffer[branch_pc];
+    // cout<<"history_table of "<<branch_pc<<" is "<<history_table[branch_pc]<<endl;
+    int history_state = history_table[branch_pc].back() - '0';
+    if(twoBitBuffer[branch_pc]==0){
+        if(history_state)twoBitBuffer[branch_pc]=1;
+        // cout<<"State of "<<branch_pc<<" changed from "<<prev_state<<" to "<<twoBitBuffer[branch_pc]<<endl;
     }
-    else if(twoBitBuffer[tokens[0]]==1){
-        if(history_table[tokens[0]])twoBitBuffer[tokens[0]]=2;
-        else twoBitBuffer[tokens[0]]=0;
-        // cout<<"State of "<<tokens[0]<<" changed from "<<prev_state<<" to "<<twoBitBuffer[tokens[0]]<<endl;
+    else if(twoBitBuffer[branch_pc]==1){
+        if(history_state)twoBitBuffer[branch_pc]=2;
+        else twoBitBuffer[branch_pc]=0;
+        // cout<<"State of "<<branch_pc<<" changed from "<<prev_state<<" to "<<twoBitBuffer[branch_pc]<<endl;
     }
-    else if(twoBitBuffer[tokens[0]]==2){
-        if(history_table[tokens[0]])twoBitBuffer[tokens[0]]=3;
-        else twoBitBuffer[tokens[0]]=1;
-        // cout<<"State of "<<tokens[0]<<" changed from "<<prev_state<<" to "<<twoBitBuffer[tokens[0]]<<endl;
+    else if(twoBitBuffer[branch_pc]==2){
+        if(history_state)twoBitBuffer[branch_pc]=3;
+        else twoBitBuffer[branch_pc]=1;
+        // cout<<"State of "<<branch_pc<<" changed from "<<prev_state<<" to "<<twoBitBuffer[branch_pc]<<endl;
     }
     else{
-        if(!history_table[tokens[0]]){
-            twoBitBuffer[tokens[0]]=2;
-            // cout<<"State of "<<tokens[0]<<" changed from "<<prev_state<<" to "<<twoBitBuffer[tokens[0]]<<endl;
+        if(!history_state){
+            twoBitBuffer[branch_pc]=2;
+            // cout<<"State of "<<branch_pc<<" changed from "<<prev_state<<" to "<<twoBitBuffer[branch_pc]<<endl;
         }
     }
-    if((prev_state==twoBitBuffer[tokens[0]]) || (prev_state==1 && twoBitBuffer[tokens[0]]==0) ||(prev_state==2 && twoBitBuffer[tokens[0]]==3))return 1;
+    if((prev_state==twoBitBuffer[branch_pc]) || (prev_state==1 && twoBitBuffer[branch_pc]==0) ||(prev_state==2 && twoBitBuffer[branch_pc]==3))return 1;
     else return 0;
 }
