@@ -112,60 +112,75 @@ string dec_to_hex(long long num)
     return ans;
 }
 
+// Function to generate output file name for branch target buffer
+string outputBranchTargetBuffer(string in)
+{
+    // Erase the last 3 characters (assumed to be the extension)
+    in.erase(in.size() - 4);
+    in += "_OutputBTB.txt";
+    cout << "Created BTB Output File" << endl;
+    return in;
+}
+
+// Function to generate output file name for history table
+string outputHistoryTable(string in)
+{
+    // Erase the last 3 characters (assumed to be the extension)
+    in.erase(in.size() - 4);
+    in += "_OutputHT.txt";
+    cout << "Created HT Output File" << endl;
+    return in;
+}
+
+// Function to generate output file name for accuracy
+string outputAccuracy(string in)
+{
+    // Erase the last 3 characters (assumed to be the extension)
+    in.erase(in.size() - 4);
+    in += "_OutputAccuracy.txt";
+    cout << "Created Accuracy Output File" << endl;
+    return in;
+}
+
+// Function to determine if the branch is actually taken or not taken
 bool actualBranch(string cur_pc, string prev_pc)
 {
-    // cout<<cur_pc<<" "<<prev_pc<<endl;
     cur_pc.erase(0, 2);
     prev_pc.erase(0, 2);
-    // cout<<cur_pc<<" "<<prev_pc<<endl;
-    // cout<<hex_to_dec(cur_pc)<<" "<<hex_to_dec(prev_pc)<<endl;
     if (hex_to_dec(cur_pc) - hex_to_dec(prev_pc) != 4)
         return true;
     else
         return false;
 }
 
+// Function to calculate the branch target address
 void bTB(map<string, string> &branchTargetBuffer, string branch_pc, vector<string> &tokens)
 {
-    // cout<<tokens[tokens.size()-2]<<" "<<tokens[tokens.size()-1]<<endl;
     if (tokens[tokens.size() - 2] == "+")
     {
         string cur_pc = branch_pc;
         cur_pc.erase(0, 2);
         long long int_cur_pc = hex_to_dec(cur_pc);
-        // cout << cur_pc << " " << int_cur_pc << " " << stoi(tokens[tokens.size() - 1]) << endl;
         long long result = int_cur_pc + stoll(tokens[tokens.size() - 1]);
-        // cout << result << endl;
-        if (result < 0)
-        {
+        if (result < 0) // For the case of 2's complement
             result = 4294967296 + result;
-        }
-        // cout << result << endl;
-        // cout << dec_to_hex(result) << endl;
         string target_pc = "0x" + dec_to_hex(result);
         branchTargetBuffer[branch_pc] = target_pc;
-        // cout<<branch_pc<<" "<<branchTargetBuffer[branch_pc]<<endl;
     }
     if (tokens[tokens.size() - 2] == "-")
     {
         string cur_pc = branch_pc;
         cur_pc.erase(0, 2);
         long long int_cur_pc = hex_to_dec(cur_pc);
-        // cout << cur_pc << " " << int_cur_pc << " " << stoi(tokens[tokens.size() - 1]) << endl;
         long long result = int_cur_pc - stoll(tokens[tokens.size() - 1]);
-        // cout << result << endl;
-        if (result < 0)
-        {
+        if (result < 0) // For the case of 2's complement
             result = 4294967296 + result;
-        }
-        // cout << result << endl;
-        // cout << dec_to_hex(result) << endl;
         string target_pc = "0x" + dec_to_hex(result);
         branchTargetBuffer[branch_pc] = target_pc;
-        // cout<<branch_pc<<" "<<branchTargetBuffer[branch_pc]<<endl;
     }
 }
 
+// Function to calculate accuracy and handle ZERO case
 float Accuracy_cal(int a, int b)
 {
     if (a + b == 0)
@@ -180,28 +195,24 @@ float Accuracy_cal(int a, int b)
     }
 }
 
-int oneBitBranchPredictor(map<string, int> &oneBitBuffer, map<string, string> &history_table, map<string, string> &oneBitPredict_table, string &branch_pc)
+// Function for one-bit branch predictor
+int oneBitBranchPredictor(map<string, int> &oneBitBuffer, unordered_map<string, string> &history_table, map<string, string> &oneBitPredict_table, string &branch_pc)
 {
     // 0 => not taken, 1 => taken
     int prev_state = oneBitBuffer[branch_pc];
     oneBitPredict_table[branch_pc].push_back(prev_state + '0');
-    // cout<<"oneBitPredict_table of "<<branch_pc<<" is "<<oneBitPredict_table[branch_pc]<<endl;
-    // cout<<"history_table of "<<branch_pc<<" is "<<history_table[branch_pc]<<endl;
     int history_state = history_table[branch_pc].back() - '0';
     if (history_state == oneBitBuffer[branch_pc])
-    {
-        // cout << "State of " << branch_pc << " changed from " << oneBitBuffer[branch_pc] << " to " << history_state << endl;
-        return 1;
-    }
+        return 1; // Correct prediction
     else
     {
-        // cout << "State of " << branch_pc << " changed from " << oneBitBuffer[branch_pc] << " to " << history_state << endl;
         oneBitBuffer[branch_pc] = history_state;
-        return 0;
+        return 0; // Wrong prediction
     }
 }
 
-int twoBitBranchPredictor(map<string, int> &twoBitBuffer, map<string, string> &history_table, map<string, string> &twoBitPredict_table, string &branch_pc)
+// Function for two-bit branch predictor
+int twoBitBranchPredictor(map<string, int> &twoBitBuffer, unordered_map<string, string> &history_table, map<string, string> &twoBitPredict_table, string &branch_pc)
 {
     // 0=>strongly not taken 1=>not taken 2=>taken 3=>strongly taken
     int prev_state = twoBitBuffer[branch_pc];
@@ -211,14 +222,11 @@ int twoBitBranchPredictor(map<string, int> &twoBitBuffer, map<string, string> &h
         twoBitPredict_table[branch_pc].push_back(prev_state - 1 + '0');
     else if (prev_state == 3)
         twoBitPredict_table[branch_pc].push_back(prev_state - 2 + '0');
-    // cout<<"twoBitPredict_table of "<<branch_pc<<" is "<<twoBitPredict_table[branch_pc]<<endl;
-    // cout<<"history_table of "<<branch_pc<<" is "<<history_table[branch_pc]<<endl;
     int history_state = history_table[branch_pc].back() - '0';
     if (twoBitBuffer[branch_pc] == 0)
     {
         if (history_state)
             twoBitBuffer[branch_pc] = 1;
-        // cout<<"State of "<<branch_pc<<" changed from "<<prev_state<<" to "<<twoBitBuffer[branch_pc]<<endl;
     }
     else if (twoBitBuffer[branch_pc] == 1)
     {
@@ -226,7 +234,6 @@ int twoBitBranchPredictor(map<string, int> &twoBitBuffer, map<string, string> &h
             twoBitBuffer[branch_pc] = 2;
         else
             twoBitBuffer[branch_pc] = 0;
-        // cout<<"State of "<<branch_pc<<" changed from "<<prev_state<<" to "<<twoBitBuffer[branch_pc]<<endl;
     }
     else if (twoBitBuffer[branch_pc] == 2)
     {
@@ -234,18 +241,14 @@ int twoBitBranchPredictor(map<string, int> &twoBitBuffer, map<string, string> &h
             twoBitBuffer[branch_pc] = 3;
         else
             twoBitBuffer[branch_pc] = 1;
-        // cout<<"State of "<<branch_pc<<" changed from "<<prev_state<<" to "<<twoBitBuffer[branch_pc]<<endl;
     }
     else
     {
         if (!history_state)
-        {
             twoBitBuffer[branch_pc] = 2;
-            // cout<<"State of "<<branch_pc<<" changed from "<<prev_state<<" to "<<twoBitBuffer[branch_pc]<<endl;
-        }
     }
     if ((prev_state == twoBitBuffer[branch_pc]) || (prev_state == 1 && twoBitBuffer[branch_pc] == 0) || (prev_state == 2 && twoBitBuffer[branch_pc] == 3))
-        return 1;
+        return 1; // Correct prediction
     else
-        return 0;
+        return 0; // Wrong prediction
 }
