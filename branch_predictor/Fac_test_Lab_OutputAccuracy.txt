@@ -1,0 +1,12 @@
+
+
+------------------------------ACCURACY-------------------------------------
+
+Total Prediction of 1-bit Branch Predictor -> 88.39%
+Total Prediction of 2-bit Branch Predictor -> 90.3403%
+Accuracy of branch predictor By Always Taken -> 63.7548%
+Accuracy of branch predictor By Always Not Taken -> 36.2452%
+
+
+-------------------------------------------------------------------
+
