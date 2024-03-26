@@ -21,9 +21,12 @@ int main(int argc, char *argv[])
         // Generate addresses of instructions
         string next_pc;
         string branch_pc;
-        map<string, string> history_table; // (PC,0101011) => (PC,NT T NT T NT T T)
+        map<string, string> history_table;       // (PC,0101011) => (PC,NT T NT T NT T T)
+        map<string, string> oneBitPredict_table; // (PC,0101011) => (PC,NT T NT T NT T T)
+        map<string, string> twoBitPredict_table; // (PC,0101011) => (PC,NT T NT T NT T T)
         map<string, int> oneBitBuffer;
         map<string, int> twoBitBuffer;
+        map<string, string> branchTargetBuffer;
         int correctPrediction = 0;
         int wrongPrediction = 0;
         int correctPrediction1 = 0;
@@ -49,13 +52,13 @@ int main(int argc, char *argv[])
                     history_table[branch_pc].push_back('0');
                     Not_taken_count++;
                 }
-                if (oneBitBranchPredictor(oneBitBuffer, history_table, branch_pc))
+                if (oneBitBranchPredictor(oneBitBuffer, history_table, oneBitPredict_table, branch_pc))
                     correctPrediction++;
                 else
                     wrongPrediction++;
                 if (twoBitBuffer.find(branch_pc) == twoBitBuffer.end())
                     twoBitBuffer[branch_pc] = 1; // two bit branch predictor should start from not taken
-                if (twoBitBranchPredictor(twoBitBuffer, history_table, branch_pc))
+                if (twoBitBranchPredictor(twoBitBuffer, history_table, twoBitPredict_table, branch_pc))
                     correctPrediction1++;
                 else
                     wrongPrediction1++;
@@ -64,6 +67,7 @@ int main(int argc, char *argv[])
             if (tokens[2][0] == 'b')
             {
                 branch_pc = tokens[0];
+                bTB(branchTargetBuffer, branch_pc, tokens);
                 // cout << "Branch Target Buffer of 1-bit:" << endl;
                 // if (oneBitBranchPredictor(oneBitBuffer, history_table, tokens))
                 //     correctPrediction++;
@@ -86,7 +90,6 @@ int main(int argc, char *argv[])
         cout << "accuracy of branch predictor By Always Taken -> " << Accuracy << "%" << endl;
         float Acc = Accuracy_cal(Not_taken_count, Taken_count);
         cout << "accuracy of branch predictor By Always Not Taken -> " << Acc << "%" << endl;
-        cout << history_table.size() << endl;
     }
     return 0;
 }
