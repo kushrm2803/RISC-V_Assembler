@@ -7,65 +7,36 @@ This is a simple RISC-V assembler program based on Venus that converts RISC-V as
 The program supports the following RISC-V 32-bit ISA instructions:
 
 ### R Format
-- add
-- and
-- or
-- sll
-- slt
-- sra
-- srl
-- sub
-- xor
-- mul
-- div
-- rem
+- `add`, `and`, `or`, `sll`, `slt`, `sra`, `srl`, `sub`, `xor`, `mul`, `div`, `rem`
 
 ### I Format
-- addi
-- andi
-- ori
-- lb
-- ld
-- lh
-- lw
-- jalr
+- `addi`, `andi`, `ori`, `lb`, `ld`, `lh`, `lw`, `jalr`
 
 ### S Format
-- sb
-- sw
-- sd
-- sh
+- `sb`, `sw`, `sd`, `sh`
 
 ### SB Format
-- beq
-- bne
-- bge
-- blt
+- `beq`, `bne`, `bge`, `blt`
 
 ### U Format
-- auipc
-- lui
+- `auipc`, `lui`
 
 ### UJ Format
-- jal
+- `jal`
 
 ## Assembler Directives
 
-The program also supports the following assembler directives:
+The assembler also supports the following assembler directives:
 
-- .text
-- .data
-- .byte
-- .half
-- .word
-- .dword
-- .asciz
+- `.text`, `.data`
+- `.byte`, `.half`, `.word`, `.dword`
+- `.asciz`
 
 ## Supported Branch Prediction Methods
-- Always Taken
-- Always Not Taken
-- 1-bit Branch Predictor
-- 2-bit Branch Predictor
+- `Always Taken`
+- `Always Not Taken`
+- `1-bit Branch Predictor`
+- `2-bit Branch Predictor`
 
 ## Usage
 
@@ -151,6 +122,9 @@ Running the program with this input:
 Will generate an output file (`input.mc`) containing the machine language code.
 
 ## Example for branch_prediction
+
+Here's an example of an input assembly file (`input.asm`):
+
 ```assembly
 core   0: 0x8000c81c (0x00150513) addi    a0, a0, 1
 core   0: 0x8000c820 (0xfff5c703) lbu     a4, -1(a1)
@@ -171,9 +145,9 @@ core   0: 0x80005bcc (0x0037f793) andi    a5, a5, 3
 core   0: 0x80005bd0 (0x018787b3) add     a5, a5, s8
 core   0: 0x80005bd4 (0x004b2703) lw      a4, 4(s6)
 ```
-Running the program with this input will generate Three files:
+Running the program with this input will generate three files:
 
-input_OutputBTB.txt
+`input_OutputBTB.txt`
 ```.txt
 
 -----------------------BRANCH TARGET BUFFER-----------------------
@@ -188,7 +162,7 @@ Current PC: 0x80005b98 Target PC: 0x80005bc4 HIT
 
 ```
 
-input_OutputHT.txt
+`input_OutputHT.txt`
 ```.txt
 
 
@@ -211,7 +185,7 @@ Actual Result => T|
 -------------------------------------------------------------------
 
 ```
-inputAccuracy.txt
+`inputAccuracy.txt`
 ```.txt
 
 
