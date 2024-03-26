@@ -37,7 +37,7 @@ core 0: 0x00000004 (0x00047433) and x8 x8 x0
  core 0: 0x00000094 (0x00128293) addi x5 x5 1
  core 0: 0x00000098 (0x01330333) add x6 x6 x19
  core 0: 0x0000009c (0x001f0f13) addi x30 x30 1
- core 0: 0x00000080 (0xff2f42e3) blt x30 x18 -28
+ core 0: 0x00000080 (0xff2f42e3) blt x30 x18 pc - 28
  core 0: 0x00000084 (0x00028a03) lb x20 0(x5)
  core 0: 0x00000088 (0x00030a83) lb x21 0(x6)
  core 0: 0x0000008c (0x035a0b33) mul x22 x20 x21
@@ -45,7 +45,7 @@ core 0: 0x00000004 (0x00047433) and x8 x8 x0
  core 0: 0x00000094 (0x00128293) addi x5 x5 1
  core 0: 0x00000098 (0x01330333) add x6 x6 x19
  core 0: 0x0000009c (0x001f0f13) addi x30 x30 1
- core 0: 0x00000080 (0xff2f42e3) blt x30 x18 -28
+ core 0: 0x00000080 (0xff2f42e3) blt x30 x18 pc - 28
  core 0: 0x00000084 (0x00028a03) lb x20 0(x5)
  core 0: 0x00000088 (0x00030a83) lb x21 0(x6)
  core 0: 0x0000008c (0x035a0b33) mul x22 x20 x21
@@ -53,7 +53,7 @@ core 0: 0x00000004 (0x00047433) and x8 x8 x0
  core 0: 0x00000094 (0x00128293) addi x5 x5 1
  core 0: 0x00000098 (0x01330333) add x6 x6 x19
  core 0: 0x0000009c (0x001f0f13) addi x30 x30 1
- core 0: 0x00000080 (0xff2f42e3) blt x30 x18 -28
+ core 0: 0x00000080 (0xff2f42e3) blt x30 x18 pc - 28
  core 0: 0x00000084 (0x00028a03) lb x20 0(x5)
  core 0: 0x00000088 (0x00030a83) lb x21 0(x6)
  core 0: 0x0000008c (0x035a0b33) mul x22 x20 x21
@@ -61,7 +61,7 @@ core 0: 0x00000004 (0x00047433) and x8 x8 x0
  core 0: 0x00000094 (0x00128293) addi x5 x5 1
  core 0: 0x00000098 (0x01330333) add x6 x6 x19
  core 0: 0x0000009c (0x001f0f13) addi x30 x30 1
- core 0: 0x00000080 (0xff2f42e3) blt x30 x18 -28
+ core 0: 0x00000080 (0xff2f42e3) blt x30 x18 pc - 28
  core 0: 0x00000084 (0x00028a03) lb x20 0(x5)
  core 0: 0x00000088 (0x00030a83) lb x21 0(x6)
  core 0: 0x0000008c (0x035a0b33) mul x22 x20 x21
@@ -69,7 +69,7 @@ core 0: 0x00000004 (0x00047433) and x8 x8 x0
  core 0: 0x00000094 (0x00128293) addi x5 x5 1
  core 0: 0x00000098 (0x01330333) add x6 x6 x19
  core 0: 0x0000009c (0x001f0f13) addi x30 x30 1
- core 0: 0x00000080 (0xff2f42e3) blt x30 x18 -28
+ core 0: 0x00000080 (0xff2f42e3) blt x30 x18 pc - 28
  core 0: 0x00000084 (0x00028a03) lb x20 0(x5)
  core 0: 0x00000088 (0x00030a83) lb x21 0(x6)
  core 0: 0x0000008c (0x035a0b33) mul x22 x20 x21
@@ -77,7 +77,7 @@ core 0: 0x00000004 (0x00047433) and x8 x8 x0
  core 0: 0x00000094 (0x00128293) addi x5 x5 1
  core 0: 0x00000098 (0x01330333) add x6 x6 x19
  core 0: 0x0000009c (0x001f0f13) addi x30 x30 1
- core 0: 0x000000a0 (0xff2f42e3) blt x30 x18 -28
+ core 0: 0x000000a0 (0xff2f42e3) blt x30 x18 pc - 28
  core 0: 0x000000a4 (0x01738023) sb x23 0(x7)
  core 0: 0x000000a8 (0x00138393) addi x7 x7 1
  core 0: 0x000000ac (0x409282b3) sub x5 x5 x9
