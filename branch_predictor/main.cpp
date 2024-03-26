@@ -7,32 +7,6 @@
 #include "utilities.cpp"
 using namespace std;
 
-float Always_Taken(int a, int b)
-{
-    if (a + b == 0)
-    {
-        // Handling division by zero
-        return 0.0;
-    }
-    else
-    {
-        float acc = (double)a / (double)(a + b);
-        return acc * 100;
-    }
-}
-float Always_Not_Taken(int a, int b)
-{
-    if (a + b == 0)
-    {
-        // Handling division by zero
-        return 0.0;
-    }
-    else
-    {
-        float acc = (double)b / (double)(a + b);
-        return acc * 100;
-    }
-}
 
 int main(int argc, char *argv[])
 {
@@ -66,11 +40,14 @@ int main(int argc, char *argv[])
                     // cout<<branch_pc<<" "<<"Taken"<<endl;
                     history_table[branch_pc] = 1;
                     branch_pc.clear();
+                    Taken_count++;
                 }
                 else{
                     // cout<<branch_pc<<" "<<"NOTTaken"<<endl;
                     history_table[branch_pc] = 0;
                     branch_pc.clear();
+                    Not_taken_count++;
+
                 }
             }
             if (tokens[2][0] == 'b')
@@ -108,12 +85,14 @@ int main(int argc, char *argv[])
             }
             // prev_pc = tokens[0];
         }
-        cout << "Total Prediction of 1-bit Branch Predictor ->" << ((double)correctPrediction / (double)(correctPrediction + wrongPrediction)) * 100 << "%" << endl;
-        cout << "Total Prediction of 2-bit Branch Predictor ->" << ((double)correctPrediction1 / (double)(correctPrediction1 + wrongPrediction1)) * 100 << "%" << endl;
-        // float Accuracy = Always_Taken(Taken_count, Not_taken_count);
-        // cout << "accuracy of branch predictor By Always Taken -> " << Accuracy << "%" << endl;
-        // float Acc = Always_Not_Taken(Taken_count, Not_taken_count);
-        // cout << "accuracy of branch predictor By Always Not Taken -> " << Acc << "%" << endl;
+        float acc_1bit = Accuracy_cal(correctPrediction, wrongPrediction);
+        cout << "Total Prediction of 1-bit Branch Predictor -> " << acc_1bit << "%" << endl;
+        float acc_2bit = Accuracy_cal (correctPrediction1, wrongPrediction1);
+        cout << "Total Prediction of 2-bit Branch Predictor -> " << acc_2bit << "%" << endl;
+        float Accuracy = Accuracy_cal(Taken_count, Not_taken_count);
+        cout << "accuracy of branch predictor By Always Taken -> " << Accuracy << "%" << endl;
+        float Acc = Accuracy_cal(Not_taken_count,Taken_count);
+        cout << "accuracy of branch predictor By Always Not Taken -> " << Acc << "%" << endl;
     }
 
     return 0;
