@@ -67,6 +67,7 @@ int main(int argc, char *argv[])
                     wrongPrediction1++;
                 // Print Branch Target Buffer
                 string prob;
+                //HIT-MISS for taken/not-taken
                 if (history_table[branch_pc].back() == '1')
                     prob = "HIT";
                 else
