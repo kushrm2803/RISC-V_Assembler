@@ -1,0 +1,60 @@
+
+-----------------------BRANCH TARGET BUFFER-----------------------
+
+Current PC: 0x0000001c Target PC: 0x64 MISS
+Current PC: 0x00000028 Target PC: 0x18 MISS
+Current PC: 0x0000004c Target PC: 0x24 MISS
+Current PC: 0x00000054 Target PC: 0x24 HIT
+Current PC: 0x00000028 Target PC: 0x18 MISS
+Current PC: 0x0000004c Target PC: 0x24 HIT
+Current PC: 0x00000028 Target PC: 0x18 MISS
+Current PC: 0x0000004c Target PC: 0x24 MISS
+Current PC: 0x00000054 Target PC: 0x24 HIT
+Current PC: 0x00000028 Target PC: 0x18 MISS
+Current PC: 0x0000004c Target PC: 0x24 HIT
+Current PC: 0x00000028 Target PC: 0x18 HIT
+Current PC: 0x0000001c Target PC: 0x64 MISS
+Current PC: 0x00000028 Target PC: 0x18 MISS
+Current PC: 0x0000004c Target PC: 0x24 HIT
+Current PC: 0x00000028 Target PC: 0x18 MISS
+Current PC: 0x0000004c Target PC: 0x24 MISS
+Current PC: 0x00000054 Target PC: 0x24 HIT
+Current PC: 0x00000028 Target PC: 0x18 MISS
+Current PC: 0x0000004c Target PC: 0x24 HIT
+Current PC: 0x00000028 Target PC: 0x18 MISS
+Current PC: 0x0000004c Target PC: 0x24 HIT
+Current PC: 0x00000028 Target PC: 0x18 HIT
+Current PC: 0x0000001c Target PC: 0x64 MISS
+Current PC: 0x00000028 Target PC: 0x18 MISS
+Current PC: 0x0000004c Target PC: 0x24 MISS
+Current PC: 0x00000054 Target PC: 0x24 HIT
+Current PC: 0x00000028 Target PC: 0x18 MISS
+Current PC: 0x0000004c Target PC: 0x24 HIT
+Current PC: 0x00000028 Target PC: 0x18 MISS
+Current PC: 0x0000004c Target PC: 0x24 HIT
+Current PC: 0x00000028 Target PC: 0x18 MISS
+Current PC: 0x0000004c Target PC: 0x24 HIT
+Current PC: 0x00000028 Target PC: 0x18 HIT
+Current PC: 0x0000001c Target PC: 0x64 MISS
+Current PC: 0x00000028 Target PC: 0x18 MISS
+Current PC: 0x0000004c Target PC: 0x24 HIT
+Current PC: 0x00000028 Target PC: 0x18 MISS
+Current PC: 0x0000004c Target PC: 0x24 HIT
+Current PC: 0x00000028 Target PC: 0x18 MISS
+Current PC: 0x0000004c Target PC: 0x24 HIT
+Current PC: 0x00000028 Target PC: 0x18 MISS
+Current PC: 0x0000004c Target PC: 0x24 HIT
+Current PC: 0x00000028 Target PC: 0x18 HIT
+Current PC: 0x0000001c Target PC: 0x64 MISS
+Current PC: 0x00000028 Target PC: 0x18 MISS
+Current PC: 0x0000004c Target PC: 0x24 HIT
+Current PC: 0x00000028 Target PC: 0x18 MISS
+Current PC: 0x0000004c Target PC: 0x24 HIT
+Current PC: 0x00000028 Target PC: 0x18 MISS
+Current PC: 0x0000004c Target PC: 0x24 HIT
+Current PC: 0x00000028 Target PC: 0x18 MISS
+Current PC: 0x0000004c Target PC: 0x24 HIT
+Current PC: 0x00000028 Target PC: 0x18 HIT
+Current PC: 0x0000001c Target PC: 0x64 HIT
+
+-------------------------------------------------------------------

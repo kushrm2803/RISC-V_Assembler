@@ -1,0 +1,34 @@
+
+
+-----------------------HISTORY TABLE-------------------------------
+
+0x00000070
+Predictions of One Bit Predictor => NT|
+Predictions of Two Bit Predictor => NT|
+Actual Result => NT|
+-------------------------------------------------------------------
+0x00000074
+Predictions of One Bit Predictor => NT|NT|NT|NT|
+Predictions of Two Bit Predictor => NT|NT|NT|NT|
+Actual Result => NT|NT|NT|NT|
+-------------------------------------------------------------------
+0x00000080
+Predictions of One Bit Predictor => NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|
+Predictions of Two Bit Predictor => NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|
+Actual Result => NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|
+-------------------------------------------------------------------
+0x000000a0
+Predictions of One Bit Predictor => NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|
+Predictions of Two Bit Predictor => NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|
+Actual Result => NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|
+-------------------------------------------------------------------
+0x00000078
+Predictions of One Bit Predictor => NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|
+Predictions of Two Bit Predictor => NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|
+Actual Result => NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|
+-------------------------------------------------------------------
+0x000000b8
+Predictions of One Bit Predictor => NT|NT|NT|
+Predictions of Two Bit Predictor => NT|NT|NT|
+Actual Result => NT|NT|NT|
+-------------------------------------------------------------------

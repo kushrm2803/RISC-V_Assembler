@@ -1,0 +1,10 @@
+
+-----------------------BRANCH TARGET BUFFER-----------------------
+
+Current PC: 0x8000c824 Target PC: 0x8000c834 MISS
+Current PC: 0x8000c828 Target PC: 0x8000c814 HIT
+Current PC: 0x8000c824 Target PC: 0x8000c834 MISS
+Current PC: 0x8000c828 Target PC: 0x8000c814 MISS
+Current PC: 0x80005b98 Target PC: 0x80005bc4 HIT
+
+-------------------------------------------------------------------

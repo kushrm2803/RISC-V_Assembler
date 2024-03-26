@@ -1,0 +1,24 @@
+
+
+-----------------------HISTORY TABLE-------------------------------
+
+0x0000001c
+Predictions of One Bit Predictor => NT|NT|NT|NT|NT|NT|
+Predictions of Two Bit Predictor => NT|NT|NT|NT|NT|NT|
+Actual Result => NT|NT|NT|NT|NT|T|
+-------------------------------------------------------------------
+0x00000028
+Predictions of One Bit Predictor => NT|NT|NT|NT|NT|T|NT|NT|NT|NT|T|NT|NT|NT|NT|T|NT|NT|NT|NT|T|NT|NT|NT|NT|
+Predictions of Two Bit Predictor => NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|NT|
+Actual Result => NT|NT|NT|NT|T|NT|NT|NT|NT|T|NT|NT|NT|NT|T|NT|NT|NT|NT|T|NT|NT|NT|NT|T|
+-------------------------------------------------------------------
+0x0000004c
+Predictions of One Bit Predictor => NT|NT|T|NT|T|T|NT|T|T|NT|T|T|T|T|T|T|T|T|T|T|
+Predictions of Two Bit Predictor => NT|NT|NT|NT|NT|T|NT|T|T|T|T|T|T|T|T|T|T|T|T|T|
+Actual Result => NT|T|NT|T|T|NT|T|T|NT|T|T|T|T|T|T|T|T|T|T|T|
+-------------------------------------------------------------------
+0x00000054
+Predictions of One Bit Predictor => NT|T|T|T|
+Predictions of Two Bit Predictor => NT|T|T|T|
+Actual Result => T|T|T|T|
+-------------------------------------------------------------------

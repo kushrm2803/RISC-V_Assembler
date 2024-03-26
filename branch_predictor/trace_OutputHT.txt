@@ -1,0 +1,19 @@
+
+
+-----------------------HISTORY TABLE-------------------------------
+
+0x8000c824
+Predictions of One Bit Predictor => NT|NT|
+Predictions of Two Bit Predictor => NT|NT|
+Actual Result => NT|NT|
+-------------------------------------------------------------------
+0x8000c828
+Predictions of One Bit Predictor => NT|T|
+Predictions of Two Bit Predictor => NT|T|
+Actual Result => T|NT|
+-------------------------------------------------------------------
+0x80005b98
+Predictions of One Bit Predictor => NT|
+Predictions of Two Bit Predictor => NT|
+Actual Result => T|
+-------------------------------------------------------------------
